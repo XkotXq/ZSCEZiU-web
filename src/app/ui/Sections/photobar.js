@@ -6,9 +6,9 @@ export default function PhotoBar({ path }) {
         <div className="w-full h-64 relative rounded-md overflow-hidden mt-2 text-center">
             <Image src="/default-banner.jpg" height={256} width={1500} loading="lazy" alt="baner" className="object-cover brightness-50"/>
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full px-10 flex justify-center items-center flex-col">
-                <Breadcrumbs className="bg-black p-2 rounded-xl bg-opacity-20 backdrop-blur-sm" size="lg" separator="/">
-                    {path.map(pathItem => <BreadcrumbItem key={pathItem.name} href={pathItem.url}>{pathItem.name}</BreadcrumbItem>)}
-                </Breadcrumbs>
+                {/*<Breadcrumbs className="bg-black p-2 rounded-xl bg-opacity-20 backdrop-blur-sm" size="lg" separator="/">*/}
+                {/*    {path.map(pathItem => <BreadcrumbItem key={pathItem.name} href={pathItem.url}>{pathItem.name}</BreadcrumbItem>)}*/}
+                {/*</Breadcrumbs>*/}
             </div>
 
         </div>

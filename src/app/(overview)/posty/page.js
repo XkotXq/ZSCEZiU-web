@@ -14,26 +14,6 @@ const getPosts = async () => {
         console.log("Błąd ładowania postów: ", error)
     }
 }
-
-// const getPosts = async () => {
-//     return new Promise((resolve, reject) => {
-//         setTimeout(async () => {
-//             try {
-//                 const res = await fetch("http://localhost:3000/api/posts", {
-//                     cache: "no-store"
-//                 });
-//                 if (!res.ok) {
-//                     throw new Error("Nie udało się pobrać postów");
-//                 }
-//                 const data = await res.json();
-//                 resolve(data);
-//             } catch (error) {
-//                 console.log("Błąd ładowania postów: ", error);
-//                 reject(error);
-//             }
-//         }, 5000); // Opóźnienie w milisekundach (tutaj 3000ms = 3 sekundy)
-//     });
-// };
 export default async function Page() {
     const {posts} = await getPosts()
 
