@@ -11,7 +11,7 @@ export default function page() {
             url: "/"
         },
         {
-            name: "wyszukaj",
+            name: "wyszukiwanie",
             url: "/search"
         },
         {

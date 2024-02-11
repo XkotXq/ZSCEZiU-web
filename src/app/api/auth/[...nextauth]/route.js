@@ -7,7 +7,7 @@ import bcrypt from "bcryptjs"
 async function login(credentials) {
     try {
         connectDB();
-        const user = await User.findOne({email:credentials.email});
+        const user = await User.findOne({username:credentials.username});
         if(!user) throw new Error("Błędne dane uwierzytelniające.");
         const isCorret = await bcrypt.compare(credentials.password, user.password);
         if(!isCorret) throw new Error("Błędne dane uwierzytelniające.");
@@ -42,6 +42,7 @@ export const authOptions = {
             if (user) {
                 token.username = user.username;
                 token.email = user.email;
+                token.permissions = user.permissions
                 token.id = user.id;
             }
             return token;
@@ -51,6 +52,7 @@ export const authOptions = {
             if (token) {
                 session.user.username = token.username;
                 session.user.email = token.email;
+                session.user.permissions = token.permissions
                 session.user.id = token.id;
             }
 

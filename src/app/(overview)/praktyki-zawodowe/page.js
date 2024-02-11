@@ -158,9 +158,18 @@ export default function Page() {
             ]
         }
     ]
+    const path = [
+        {
+            name: "główna",
+            url: "/",
+        },
+        {
+            name: "praktyki zawodowe",
+        }
+    ]
     return (
         <div>
-            <PhotoBar name="Praktyki zawodowe"/>
+            <PhotoBar path={path}/>
             <div className="max-w-4xl mx-auto mt-2">
                 {mainContent.map(content => <Mediacontent key={content.id} type={content.type} data={content}/>)}
             </div>

@@ -15,6 +15,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { Popover, PopoverTrigger, PopoverContent} from "@nextui-org/react";
+
 export default function Postcomponent({ type, id, removePostComponent, components, setComponents }) {
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [urlFilm, setUrlFilm] = useState("")
@@ -99,11 +101,11 @@ export default function Postcomponent({ type, id, removePostComponent, component
     };
     const newUrlFilm = (e) => {
         setUrlFilm(e.target.value)
-        const youtubeLink = e.target.value
-        const newEmbedLink = youtubeLink.replace('watch?v=', 'embed/');
+        // const youtubeLink = e.target.value
+        // const newEmbedLink = youtubeLink.replace('watch?v=', 'embed/');
         if (components.some(component => component.id === id)) {
             const component = components.find(item => item.id === id)
-            const updateComponent = {...component , url: newEmbedLink }
+            const updateComponent = {...component , url: e.target.value }
             const updateComponents = updateObjectInTable(id, updateComponent)
             setComponents(updateComponents)
         }
@@ -111,7 +113,7 @@ export default function Postcomponent({ type, id, removePostComponent, component
             const element = {
                 id: id,
                 type: type,
-                url: urlFilm
+                value: e.target.value
             }
             setComponents(components.concat(element))
         }
@@ -180,7 +182,27 @@ export default function Postcomponent({ type, id, removePostComponent, component
                     </div>
                 </div>
                 <div className="h-full">
-                    <button className="bg-red-500 p-1 rounded-md border-2 border-red-500 hover:bg-custom-gray-800 group" title="usuń element" onClick={() => removePostComponent(id)}><TrashIcon className="h-6 w-6 text-white group-hover:text-red-500" /></button>
+                    <Popover placement="left" showArrow={true}>
+                        <PopoverTrigger>
+                            <button className="bg-red-500 p-1 rounded-md border-2 border-red-500 hover:bg-custom-gray-800 group" title="usuń element"><TrashIcon className="h-6 w-6 text-white group-hover:text-red-500" /></button>
+                        </PopoverTrigger>
+                        <PopoverContent>
+                            <div className="flex flex-col gap-2 p-2">
+                                <div>
+                                    <p className="text-lg">Na pewno chcesz usunąć ten post?</p>
+                                </div>
+                                <div>
+                                    <button
+                                        onClick={() => removePostComponent(id)}
+                                        className="bg-red-500 px-2 py-1 rounded-md text-[#18181b] border-2 border-red-500 hover:bg-[#18181b] hover:text-red-500 flex gap-2"
+                                    >
+                                        usuń
+                                        <TrashIcon className="h-5 w-5" />
+                                    </button>
+                                </div>
+                            </div>
+                        </PopoverContent>
+                    </Popover>
                 </div>
             </div>
             )
@@ -195,7 +217,27 @@ export default function Postcomponent({ type, id, removePostComponent, component
                         <Photodropzone onImageDrop={sendPhoto} type="photo"/>
                         </div>
                         <div className="h-full">
-                            <button className="bg-red-500 p-1 rounded-md border-2 border-red-500 hover:bg-custom-gray-800 group" title="usuń element" onClick={() => removePostComponent(id)}><TrashIcon className="h-6 w-6 text-white group-hover:text-red-500" /></button>
+                            <Popover placement="left" showArrow={true}>
+                                <PopoverTrigger>
+                                    <button className="bg-red-500 p-1 rounded-md border-2 border-red-500 hover:bg-custom-gray-800 group" title="usuń element"><TrashIcon className="h-6 w-6 text-white group-hover:text-red-500" /></button>
+                                </PopoverTrigger>
+                                <PopoverContent>
+                                    <div className="flex flex-col gap-2 p-2">
+                                        <div>
+                                            <p className="text-lg">Na pewno chcesz usunąć ten post?</p>
+                                        </div>
+                                        <div>
+                                            <button
+                                                onClick={() => removePostComponent(id)}
+                                                className="bg-red-500 px-2 py-1 rounded-md text-[#18181b] border-2 border-red-500 hover:bg-[#18181b] hover:text-red-500 flex gap-2"
+                                            >
+                                                usuń
+                                                <TrashIcon className="h-5 w-5" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </PopoverContent>
+                            </Popover>
                         </div>
                     </div>
                     {uploadedFiles.length > 0 && (
@@ -225,7 +267,27 @@ export default function Postcomponent({ type, id, removePostComponent, component
                             <Photodropzone onImageDrop={sendFile} type="slider"/>
                         </div>
                         <div className="h-full">
-                            <button className="bg-red-500 p-1 rounded-md border-2 border-red-500 hover:bg-custom-gray-800 group" title="usuń element" onClick={() => removePostComponent(id)}><TrashIcon className="h-6 w-6 text-white group-hover:text-red-500" /></button>
+                            <Popover placement="left" showArrow={true}>
+                                <PopoverTrigger>
+                                    <button className="bg-red-500 p-1 rounded-md border-2 border-red-500 hover:bg-custom-gray-800 group" title="usuń element"><TrashIcon className="h-6 w-6 text-white group-hover:text-red-500" /></button>
+                                </PopoverTrigger>
+                                <PopoverContent>
+                                    <div className="flex flex-col gap-2 p-2">
+                                        <div>
+                                            <p className="text-lg">Na pewno chcesz usunąć ten post?</p>
+                                        </div>
+                                        <div>
+                                            <button
+                                                onClick={() => removePostComponent(id)}
+                                                className="bg-red-500 px-2 py-1 rounded-md text-[#18181b] border-2 border-red-500 hover:bg-[#18181b] hover:text-red-500 flex gap-2"
+                                            >
+                                                usuń
+                                                <TrashIcon className="h-5 w-5" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </PopoverContent>
+                            </Popover>
                         </div>
                     </div>
                     <div>
@@ -286,7 +348,27 @@ export default function Postcomponent({ type, id, removePostComponent, component
                     <input name="url" placeholder="link do filmu na youtube" type="text" value={urlFilm} onChange={newUrlFilm} className="bg-custom-gray-900 focus:outline-none p-2 rounded-md"/>
                 </div>
                 <div className="h-full">
-                    <button className="bg-red-500 p-1 rounded-md border-2 border-red-500 hover:bg-custom-gray-800 group" title="usuń element" onClick={() => removePostComponent(id)}><TrashIcon className="h-6 w-6 text-white group-hover:text-red-500" /></button>
+                    <Popover placement="left" showArrow={true}>
+                        <PopoverTrigger>
+                        <button className="bg-red-500 p-1 rounded-md border-2 border-red-500 hover:bg-custom-gray-800 group" title="usuń element"><TrashIcon className="h-6 w-6 text-white group-hover:text-red-500" /></button>
+                        </PopoverTrigger>
+                        <PopoverContent>
+                            <div className="flex flex-col gap-2 p-2">
+                                <div>
+                                    <p className="text-lg">Na pewno chcesz usunąć ten post?</p>
+                                </div>
+                                <div>
+                                    <button
+                                        onClick={() => removePostComponent(id)}
+                                        className="bg-red-500 px-2 py-1 rounded-md text-[#18181b] border-2 border-red-500 hover:bg-[#18181b] hover:text-red-500 flex gap-2"
+                                    >
+                                        usuń
+                                        <TrashIcon className="h-5 w-5" />
+                                    </button>
+                                </div>
+                            </div>
+                        </PopoverContent>
+                    </Popover>
                 </div>
             </div>
             )

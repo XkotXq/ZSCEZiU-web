@@ -17,12 +17,13 @@ export default function PostsContent({ type, data }) {
                 <div></div>
             )
         case "video":
+            const newEmbedLink = data.replace('watch?v=', 'embed/') || data;
             return (
                 <div className="rounded-md overflow-hidden mx-auto">
                     <iframe
                         width="560"
                         height="315"
-                        src={data}
+                        src={newEmbedLink}
                         frameBorder="0"
                         allowFullScreen
                         title="Embedded YouTube Video"

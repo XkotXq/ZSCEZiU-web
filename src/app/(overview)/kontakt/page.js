@@ -1,9 +1,18 @@
 import PhotoBar from "@/app/ui/Sections/photobar";
 
 export default function Page() {
+    const path = [
+        {
+            name: "główna",
+            url: "/",
+        },
+        {
+            name: "kontakt",
+        }
+    ]
     return (
         <div className="text-custom-gray-300 w-full">
-            <PhotoBar name="Kontakt"/>
+            <PhotoBar path={path}/>
             <div className="max-w-4xl mx-auto">
                 <h2 className="text-2xl font-bold py-2 text-custom-gray-200">96-200 Rawa Mazowiecka ul. Zwolińskiego 46</h2>
                 <p className="my-2">Sekretariat szkoły jest czynny codzienie w godzinach <b>8:00 - 15:00</b></p>
@@ -14,6 +23,7 @@ export default function Page() {
                 <p className="my-2">e-mail wicedyrektora szkoły Anna Jagniątkowska: <b>aj@rawa-kopernik.pl</b></p>
                 <p className="my-2">e-mail wicedyrektora szkoły Krzysztof Gruchała: <b>kg@rawa-kopernik.pl</b></p>
                 <p className="my-2">e-mail administratora www: <b>admin@rawa-kopernik.pl</b></p>
+
             </div>
         </div>
     )

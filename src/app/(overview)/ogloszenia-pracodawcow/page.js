@@ -41,9 +41,18 @@ export default function page() {
             ]
         }
     ]
+    const path = [
+        {
+            name: "główna",
+            url: "/",
+        },
+        {
+            name: "ogłoszenia pracodawców",
+        }
+    ]
     return (
         <div>
-            <PhotoBar name="ogłoszenia pracodawców"/>
+            <PhotoBar path={path}/>
             <div className="flex flex-col items-center gap-2 mt-5">
                 <img src="/ogloszenia-pracodawcow/fmebli.png" className="w-[70%]" alt="ogłoszenie fmebli"/>
                 <img src="/ogloszenia-pracodawcow/mc.jpg" className="w-[50%]" alt="ogłoszenie McDonald"/>

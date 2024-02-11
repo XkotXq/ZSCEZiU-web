@@ -1,11 +1,13 @@
 import Link from "next/link"
 import Image from "next/image";
+import { Card } from "@nextui-org/react";
+
 
 export default function footer() {
     return (
-        <div className="w-full bg-custom-gray-900 rounded-lg mt-2 flex text-custom-gray-400 gap-2 p-2 md:flex-row flex-col">
+        <Card className="w-full mt-2 flex text-custom-gray-400 gap-2 p-2 md:flex-row flex-col">
             <Link href="https://www.facebook.com/zsceziu" target="_blank">
-                <Image src="/facebookIcon.svg" width={50} height={50} alt="instagram icon"/>
+                <Image src="/facebookIcon.svg" className="text-blue-500" width={50} height={50} alt="instagram icon"/>
             </Link>
             <Link href="https://www.instagram.com/zsceziu_rawa_maz/" target="_blank">
                 <Image src="/instagramIcon.svg" width={50} height={50} alt="instagram icon"/>
@@ -19,6 +21,6 @@ export default function footer() {
             <div className="flex md:justify-end md:items-end items-center justify-center text-custom-gray-500 text-2xl font-bold whitespace-nowrap">
                 Górka Górą
             </div>
-        </div>
+        </Card>
     )
 }

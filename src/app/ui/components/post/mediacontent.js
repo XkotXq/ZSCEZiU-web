@@ -3,7 +3,6 @@ import Link from "next/link";
 import Linkify from 'linkify-react';
 import { ArrowDownTrayIcon } from "@heroicons/react/20/solid";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
-
 import Image from "next/image";
 import {useState} from "react";
 

@@ -18,13 +18,13 @@ export default function page() {
     const toggleVisibility = () => setIsVisible(!isVisible);
     async function handleSubmit() {
         if(!login || !password) {
-            setError("Pola email i hasło nie mogą być puste.")
+            setError("Pola login i hasło nie mogą być puste.")
             return;
         }
         try {
         setPending(true)
         const res = await signIn("credentials", {
-            email: login,
+            username: login,
             password: password,
             redirect: false
         })
@@ -52,7 +52,7 @@ export default function page() {
                     <form className="flex flex-col gap-2 w-[400px]">
                         <div className="flex flex-col">
                             <Input
-                                label="Email"
+                                label="Nazwa użytkownika"
                                 placeholder="Wpisz swój login"
                                 value={login}
                                 onValueChange={setLogin}

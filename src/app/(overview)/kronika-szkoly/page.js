@@ -4,17 +4,20 @@ import PhotoBar from "@/app/ui/Sections/photobar";
 import Image from "next/image";
 
 export default function page() {
-    const chapters = [
+    const path = [
+        {
+            name: "główna",
+            url: "/",
+        },
         {
             name: "historia szkoły",
-            href: "historia-szkoly"
         }
     ]
 
     return (
         <div className="flex gap-2">
             <div className="text-custom-gray-300 w-full ">
-                <PhotoBar name="Historia szkoły"/>
+                <PhotoBar path={path}/>
                 <div className="max-w-4xl mx-auto">
                     <h2 className="text-2xl font-bold py-2 text-custom-gray-200" id="historia-szkoly">Historia szkoły</h2>
                     <div className="mx-6">

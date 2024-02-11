@@ -3,7 +3,7 @@ import {Card, CardHeader, CardBody, Image, Link, Chip} from "@nextui-org/react";
 
 export default function Post({ id, title, tags, date, img, desc}) {
     return (
-        <Card shadow="sm" className="w-[400px] flex flex-col" href={"/posty/" + id} as={Link} isPressable>
+        <Card shadow="sm" className="max-w-[400px] flex flex-col" href={"/posty/" + id} as={Link} isPressable>
             <CardHeader className="grow flex gap-2">
                 <div className="flex h-full flex-col justify-between w-full">
                     <div>

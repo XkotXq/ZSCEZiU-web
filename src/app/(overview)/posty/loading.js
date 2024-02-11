@@ -15,7 +15,7 @@ export default function Loading() {
     ]
     return (
         <div className="flex flex-col gap-2">
-            <PhotoBar name="Posty" path={path}/>
+            <PhotoBar path={path}/>
             <div className="rounded-md text-center p-5 bg-custom-gray-800 flex justify-center items-center text-2xl">Posty</div>
             <div className="grid grid-cols-3 gap-2 grow mx-auto">
                 <Skeletonpost/>

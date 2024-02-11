@@ -80,9 +80,22 @@ export default function page() {
             ]
         }
     ]
+    const path = [
+        {
+            name: "główna",
+            url: "/",
+        },
+        {
+            name: "zawody",
+            url: "/#zawody",
+        },
+        {
+            name: "klasa wielozawodowa",
+        }
+    ]
     return (
         <div>
-            <PhotoBar name="klasa wielozawodowa"/>
+            <PhotoBar path={path}/>
             <div className="max-w-4xl mx-auto">
                 {mainContent.map(content => <Mediacontent key={content.id} type={content.type} data={content}/>)}
             </div>

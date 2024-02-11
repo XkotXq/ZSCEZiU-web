@@ -5,9 +5,18 @@ export default function page() {
     const mainContent = [
 
     ]
+    const path = [
+        {
+            name: "główna",
+            url: "/",
+        },
+        {
+            name: "rodo",
+        }
+    ]
     return (
         <div>
-            <PhotoBar name="rodo"/>
+            <PhotoBar path={path}/>
             <div className="max-w-4xl mx-auto">
                 {mainContent.map(content => <Mediacontent key={content.id} type={content.type} data={content}/>)}
             </div>

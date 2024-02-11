@@ -4,14 +4,15 @@ import Postcomponent from "@/app/dashboard/ui/post/postcomponent";
 import { v4 as uuidv4 } from 'uuid';
 import NotesRoundedIcon from '@mui/icons-material/NotesRounded';
 import { PhotoIcon, BookmarkIcon, VideoCameraIcon, PaperAirplaneIcon, DocumentIcon, BackwardIcon  } from "@heroicons/react/20/solid";
+import { Card, CardHeader, CardBody, Image, Chip } from "@nextui-org/react";
 import Photodropzone from "@/app/dashboard/ui/photodropzone";
-import Post from "@/app/ui/components/post";
 import { format } from 'date-fns';
 import { pl } from 'date-fns/locale';
 import SaveRoundedIcon from '@mui/icons-material/SaveRounded';
 import Boxtag from "@/app/dashboard/ui/boxtag";
 import Snackbar from '@mui/material/Snackbar';
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function page() {
     const [postComponents, setPostComponents] = useState([])
@@ -23,6 +24,7 @@ export default function page() {
     const [primaryConfig, setPrimaryConfig] = useState(true)
     const [activeTag, setActiveTag] = useState("ZSCEZiU")
     const [state, setState] = useState(false);
+    const router = useRouter()
 
     const today = new Date();
     const formattedDate = format(today, 'd MMMM yyyy', { locale: pl });
@@ -37,9 +39,19 @@ export default function page() {
         setPostComponents(postComponents.concat(postComponent))
     }
     const removePostComponent = (id) => {
-        setPostComponents(postComponents.filter(postComponent => postComponent.id !== id))
-        if (components.some(component => component === id)) setComponents(component.filter(component => component.id !== id))
+        console.log(postComponents)
+        const filteredPostComponents = postComponents.filter(postComponent => postComponent.id !== id);
+        console.log(filteredPostComponents)
+        setPostComponents(filteredPostComponents);
+        console.log(postComponents)
+            console.log(components)
+        if (components.some(component => component === id)) {
+            const filteredComponents = components.filter(component => component.id !== id);
+            setComponents(filteredComponents);
+            console.log(components)
+        }
     }
+
     const addDataPost = () => {
         if (newTitle === "" || newDesc === "") {
             setState(true)
@@ -69,6 +81,7 @@ export default function page() {
         axios.post("http://localhost:3001/api/posts", readyPost)
             .then(res => {
                 console.log("wysłano")
+                router.replace("/dashboard/posts")
             })
             .catch(error => {
                 console.error("error dlaczego", error)
@@ -84,7 +97,7 @@ export default function page() {
 
             <div>
                 <div className="flex gap-2 h-full">
-                    <div className="w-full bg-custom-gray-900 rounded-md p-2  flex flex-col justify-between">
+                    <Card className="w-full p-2 flex flex-col justify-between">
                         <div className="flex flex-col gap-2 w-full">
                             <label htmlFor="title">Tytuł postu</label>
                             <input type="text" name="title" className="bg-custom-gray-800 focus:outline-none p-2 rounded-md" maxLength={90} value={newTitle} onChange={(e) => setNewTitle(e.target.value)} placeholder="tytuł"/>
@@ -92,15 +105,45 @@ export default function page() {
                             <label>Wybierz zdjęcie</label>
                             <Photodropzone onImageDrop={(imageFile) => setImg(imageFile)} type="photo"/>
                             <label htmlFor="desc">Opis postu</label>
-                            <input type="text" name="desc" className="bg-custom-gray-800 focus:outline-none p-2 rounded-md" maxLength={90} value={newDesc} onChange={(e) => setNewDesc(e.target.value)} placeholder="opis"/>
+                            <input type="text" name="desc" className="bg-custom-gray-800 focus:outline-none p-2 rounded-md" maxLength={160} value={newDesc} onChange={(e) => setNewDesc(e.target.value)} placeholder="opis"/>
 
                         </div>
                             <div className="flex justify-end">
                                 <button className="bg-blue-500 border-blue-500 border-2  p-1 rounded-md flex gap-2 hover:bg-blue-600" onClick={addDataPost}>zapisz <SaveRoundedIcon /></button>
                             </div>
-                    </div>
-                    <div>
-                        <Post title={newTitle} date={formattedDate} img={img ? URL.createObjectURL(img) : "/assets/default-image.jpg"} tags={[activeTag]} desc={newDesc} />
+                    </Card>
+                    <div className="grow">
+                        <Card shadow="sm" className="w-[400px] flex flex-col">
+                            <CardHeader className="grow flex gap-2">
+                                <div className="flex h-full flex-col justify-between w-full">
+                                    <div>
+                                        <h3 className="sm:text-lg text-base font-medium">{newTitle ? newTitle : "brak tytułu"}</h3>
+                                    </div>
+                                    <div>
+                                        <p className=" text-custom-gray-300 font-medium">Dodany {formattedDate}</p>
+                                    </div>
+                                </div>
+                                <div className="flex justify-end items-start h-full">
+                                    <Chip color="default" variant="shadow">{activeTag}</Chip>
+                                </div>
+                            </CardHeader>
+                            <CardBody>
+                                <div className="flex gap-2">
+                                    <div className="w-1/2">
+                                        <Image
+                                            shadow="sm"
+                                            radius="sm"
+                                            alt={newTitle}
+                                            className="w-full object-cover h-[200px]"
+                                            src={img ? URL.createObjectURL(img) : "/assets/default-image.jpg"}
+                                        />
+                                    </div>
+                                    <div className="w-1/2">
+                                        <p>{newDesc ? newDesc : "brak opisu"}</p>
+                                    </div>
+                                </div>
+                            </CardBody>
+                        </Card>
                     </div>
                 </div>
                 <Snackbar

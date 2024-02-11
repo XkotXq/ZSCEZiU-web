@@ -5,22 +5,6 @@ import PhotoBar from "@/app/ui/Sections/photobar";
 import Mediacontent from "@/app/ui/components/post/mediacontent";
 
 export default function Page() {
-
-
-    const chapters = [
-        {
-            name: "Internat",
-            href: "internat"
-        },
-        {
-            name: "Rekrutacja do internatu",
-            href: "internat-rekrutacja"
-        },
-        {
-            name: "Dokumenty do pobrania",
-            href: "internat-rekrutacja-dokumenty"
-        }
-    ]
     const files = {
             type: "file",
             files: [
@@ -42,16 +26,23 @@ export default function Page() {
                 }
             ],
         }
+    const path = [
+        {
+            name: "główna",
+            url: "/",
+        },
+        {
+            name: "internat",
+        }
+    ]
     return (
-        <div className="flex gap-2">
-            <div>
-                <Chapters chapters={chapters}/>
-            </div>
-            <div className="text-custom-gray-300">
-                <PhotoBar name="Internat"/>
+        <div>
+            <div className="text-custom-gray-300 p-1 sm:p-0">
+                <PhotoBar path={path}/>
+                <div className="max-w-4xl mx-auto">
                 <div>
                     <h2 className="text-2xl font-bold py-2 text-custom-gray-200" id="internat">Internat</h2>
-                    <div className="ml-6">
+                    <div className="ml-3 sm:ml-6">
                         <p>
                             Internat jest integralną częścią Zespołu Szkół-Centrum Edukacji Zawodowej i Ustawicznej im.
                             Mikołaja Kopernika w Rawie Mazowieckiej. Mieszkają w nim nasi uczniowie spoza Rawy
@@ -107,6 +98,7 @@ export default function Page() {
                         <Mediacontent type={files.type} data={files}/>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     )

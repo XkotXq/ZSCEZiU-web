@@ -2,7 +2,7 @@ import {Card, CardBody, Link} from "@nextui-org/react";
 
 const getPosts = async () => {
     try {
-        const res = await fetch("http://localhost:3000/api/lastestposts", {
+        const res = await fetch("/api/lastestposts", {
             cache: "no-store"
         })
         if (!res.ok) {

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 export default function page() {
     const router = useRouter()
-    const [info, setInfo] = useState({ username: "", email: "", password: "" })
+    const [info, setInfo] = useState({ username: "", password: "" })
     const [error, setError] = useState("")
     const [pending, setPending] = useState(false)
 
@@ -15,7 +15,7 @@ export default function page() {
 
     async function handleSubmit(e) {
         e.preventDefault()
-        if(!info.username || !info.email || !info.password) {
+        if(!info.username || !info.password) {
             setError("Must provide all the credentials.")
         }
         try {
@@ -56,10 +56,10 @@ export default function page() {
                         <label>Nazwa użytkownika</label>
                         <input type="text" name="username" onChange={(e) => handleInput(e)} className="bg-custom-gray-800 focus:outline-none focus:bg-custom-gray-700 text-white flex p-1 text-xl rounded-md"/>
                     </div>
-                    <div className="flex flex-col">
-                        <label>Email</label>
-                        <input type="email" name="email" onChange={(e) => handleInput(e)} className="bg-custom-gray-800 focus:outline-none focus:bg-custom-gray-700 text-white flex p-1 text-xl rounded-md"/>
-                    </div>
+                    {/*<div className="flex flex-col">*/}
+                    {/*    <label>Email</label>*/}
+                    {/*    <input type="email" name="email" onChange={(e) => handleInput(e)} className="bg-custom-gray-800 focus:outline-none focus:bg-custom-gray-700 text-white flex p-1 text-xl rounded-md"/>*/}
+                    {/*</div>*/}
                     <div className="flex flex-col">
                         <label>Hasło</label>
                         <input type="password" name="password" onChange={(e) => handleInput(e)} className="bg-custom-gray-800 focus:outline-none focus:bg-custom-gray-700 text-white flex p-1 text-xl rounded-md"/>
