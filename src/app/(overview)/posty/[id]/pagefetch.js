@@ -1,6 +1,7 @@
 export const getPost = async (id) => {
     try {
-        const res = await fetch(`/api/posts/${id}`, {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
+        const res = await fetch(`${apiUrl}/api/posts/${id}`, {
             cache: "no-store"
         });
         if (!res.ok) {

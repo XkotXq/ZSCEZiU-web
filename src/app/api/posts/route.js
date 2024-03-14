@@ -10,7 +10,7 @@ export async function POST(req) {
 }
 export async function GET() {
     await connectDB()
-    const posts = await Post.find({}, { content: 0, createdAt: 0, updatedAt: 0 }).sort({ _id: -1 })
+    const posts = await Post.find({ share: true }, { content: 0, createdAt: 0, updatedAt: 0 }).sort({ _id: -1 })
     return NextResponse.json({ posts });
 }
 export async function DELETE(req) {

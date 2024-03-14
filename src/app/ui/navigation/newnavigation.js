@@ -49,7 +49,7 @@ export default function Newnavigation() {
                         </DropdownTrigger>
                     </NavbarItem>
                     <DropdownMenu>
-                        <DropdownItem href="/posty" aria-label="posty">
+                        <DropdownItem href="/posty?p=1" aria-label="posty">
                                 posty
                         </DropdownItem>
                         <DropdownItem href="/internat" aria-label="internat">
@@ -79,6 +79,11 @@ export default function Newnavigation() {
                 <NavbarItem>
                     <Link href="/rekrutacja" color="foreground" aria-label="rekrutacja">
                     rekrutacja
+                    </Link>
+                </NavbarItem>
+                <NavbarItem>
+                    <Link href="/serwis" color="foreground">
+                        serwis uczniów
                     </Link>
                 </NavbarItem>
                 <Dropdown>
@@ -114,48 +119,50 @@ export default function Newnavigation() {
                             technik pojazdów samochodowych
                         </DropdownItem>
                         <DropdownItem href="/zawody/t-zywienia-i-uslug-gastronomicznych" aria-label="technik żywienia i suług gastronomicznych">
-                            technik żywienia i usług gastronomicznych
-                        </DropdownItem>
-                        <DropdownItem href="/zawody/kucharz" aria-label="kucharz">
                             kucharz
                         </DropdownItem>
                         <DropdownItem href="/zawody/sprzedawca" aria-label="sprzedawca">
                             sprzedawca
                         </DropdownItem>
                         <DropdownItem href="/zawody/mechanik-pojazdow-samochodowych" aria-label="mechanik pojazdów samochodowych">
-                            mechanik pojazdów samochodowych
-                        </DropdownItem>
-                        <DropdownItem href="/zawody/elektromechanik-pojazdow-samochodowych" aria-label="elektromechanik pojazdów samochodowych">
-                            elektromechanik pojazdów samochodowych
-                        </DropdownItem>
-                        <DropdownItem href="/zawody/operator-obrabiarek-skrawajacych" aria-label="operator obrabiarek skrawających">
-                            operator obrabiarek skrawających
-                        </DropdownItem>
-                        <DropdownItem href="/zawody/klasa-wielozawodowa" aria-label="klasa wielzawodowa">
-                            klasa wielozawodowa
+                            mechanik pojazdów <br/> samochodowych
                         </DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
-                <NavbarItem>
-                    <Link href="https://pl-pl.facebook.com/zsceziu" color="foreground" target="_blank" aria-label="aktualności">
-                        aktualności
-                    </Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Link href="/galeria" color="foreground" aria-label=" galeria">
-                        galeria
-                    </Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Link href="http://rawa-kopernik.pl/bip/" color="foreground" aria-label="BIP">
-                        BIP
-                    </Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Link href="/kontakt" color="foreground" aria-label="kontakt">
-                        kontakt
-                    </Link>
-                </NavbarItem>
+                <Dropdown>
+                    <NavbarItem>
+                        <DropdownTrigger>
+                            <Button
+                                disableRipple
+                                className="p-0 bg-transparent data-[hover=true]:bg-transparent"
+                                endContent={<ChevronDownIcon className="w-5 h-5" />}
+                                aria-label="więcej podstron"
+                            >
+                                więcej
+                            </Button>
+                        </DropdownTrigger>
+                    </NavbarItem>
+                    <DropdownMenu>
+                        <DropdownItem href="https://pl-pl.facebook.com/zsceziu" aria-label="aktualności" target="_blank">
+                            aktualności
+                        </DropdownItem>
+                        <DropdownItem href="http://rawa-kopernik.pl/bip/" aria-label="BIP" target="_blank">
+                            BIP
+                        </DropdownItem>
+                        <DropdownItem href="/kontakt" aria-label="kontakt">
+                            kontakt
+                        </DropdownItem>
+                        <DropdownItem href="/rodo" aria-label="aktualności">
+                            rodo
+                        </DropdownItem>
+                        <DropdownItem href="/rada-rodzicow" aria-label="BIP" target="_blank">
+                            rada-rodziców
+                        </DropdownItem>
+                        <DropdownItem href="/deklaracja" aria-label="kontakt">
+                            deklaracja dostępności
+                        </DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
             </NavbarContent>
             <NavbarContent as="div" className="items-center" justify="end">
                 <form onSubmit={goSearch}>
@@ -227,25 +234,13 @@ export default function Newnavigation() {
                                     technik pojazdów samochodowych
                                 </Link>
                                 <Link href="/zawody/zywienia-i-uslug-gastronomicznych" color="foreground" aria-label="technik żywienia i usług gastronomicznych">
-                                    technik żywienia i usług gastronomicznych
-                                </Link>
-                                <Link href="/zawody/kucharz" color="foreground" aria-label="kucharz">
-                                    kucharz
+                                    technik żywienia i usług gastronomicznych / kucharz
                                 </Link>
                                 <Link href="/zawody/sprzedawca" color="foreground" aria-label="sprzedawca">
                                     sprzedawca
                                 </Link>
                                 <Link href="/zawody/sprzedawca" color="foreground" aria-label="mechanik pojazdów samochowowych">
                                     mechanik pojazdów samochodowych
-                                </Link>
-                                <Link href="/zawody/elektromechanik-pojazdow-samochodowych" color="foreground" aria-label="elektromechanik pojazdów samochowowych">
-                                    elektormechanik pojazdów samochodowych
-                                </Link>
-                                <Link href="/zawody/operator-obrabiarek-skrawajacych" color="foreground" aria-label="operator obrabiarek skrawających">
-                                    operator obrabiarek skrawających
-                                </Link>
-                                <Link href="/zawody/klasa-wielozawodowa" color="foreground" aria-label="klasa wielozawodowa">
-                                    klasa wielozawodowa
                                 </Link>
                             </div>
                         </AccordionItem>
@@ -262,12 +257,7 @@ export default function Newnavigation() {
                         </Link>
                     </NavbarMenuItem>
                 <NavbarMenuItem className="ml-2">
-                        <Link href="/galeria" color="foreground" aria-label="galeria">
-                            galeria
-                        </Link>
-                    </NavbarMenuItem>
-                <NavbarMenuItem className="ml-2">
-                        <Link href="/http://rawa-kopernik.pl/bip/" target="_blank" color="foreground" aria-label="BIP">
+                        <Link href="http://rawa-kopernik.pl/bip/" target="_blank" color="foreground" aria-label="BIP">
                             BIP
                         </Link>
                     </NavbarMenuItem>

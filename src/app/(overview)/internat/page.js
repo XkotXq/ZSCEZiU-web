@@ -94,7 +94,7 @@ export default function Page() {
                             </ul>
                         </li>
                     </ul>
-                    <div id="internat-rekrutacja-dokumenty"v>
+                    <div id="internat-rekrutacja-dokumenty">
                         <Mediacontent type={files.type} data={files}/>
                     </div>
                 </div>

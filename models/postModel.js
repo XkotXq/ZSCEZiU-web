@@ -7,6 +7,7 @@ import mongoose, { Schema } from "mongoose";
         date: String,
         img: String,
         desc: String,
+        share: Boolean,
         content: [Schema.Types.Mixed],
     },
     {

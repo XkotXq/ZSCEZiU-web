@@ -6,7 +6,7 @@ export async function GET(req, { params }) {
     try {
     const { id } = params;
     await connectDB();
-    const post = await Post.findById(id);
+        const post = await Post.findOne({ _id: id, share: true });
         if (!post) {
             return NextResponse.json({ error: "Nie znaleziono postu o podanym id" }, { status: 404 });
         } else {

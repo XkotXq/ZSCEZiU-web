@@ -1,6 +1,6 @@
 "use client";
 import Linknav from "@/app/dashboard/ui/linknav";
-import {UsersIcon, PowerIcon, ChatBubbleLeftEllipsisIcon, HomeIcon, PhotoIcon, WrenchScrewdriverIcon, DocumentIcon} from "@heroicons/react/20/solid";
+import {PowerIcon, ChatBubbleLeftEllipsisIcon, HomeIcon, PhotoIcon, WrenchScrewdriverIcon, DocumentIcon} from "@heroicons/react/20/solid";
 import { signOut } from "next-auth/react";
 import { useSession } from 'next-auth/react';
 
@@ -28,14 +28,8 @@ export default function Sidenav() {
             value: "album",
             icon: PhotoIcon
         },
-        {
-            href: "/users",
-            value: "konta",
-            icon: UsersIcon
-        },
 
     ]
-    if (session) console.log(session)
 
     return (
         <div className="p-2 h-full flex gap-2 flex-col">

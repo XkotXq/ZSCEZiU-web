@@ -1,6 +1,7 @@
 const getPosts = async () => {
     try {
-        const res = await fetch("/api/posts", {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
+        const res = await fetch(`${apiUrl}/api/allposts`, {
             cache: "no-store"
         })
         if (!res.ok) {
@@ -13,7 +14,8 @@ const getPosts = async () => {
 }
 const deletePost = async (id) => {
     try {
-        const response = await fetch(`/api/posts?id=${id}`, {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
+        const response = await fetch(`${apiUrl}/api/posts?id=${id}`, {
             method: 'DELETE'
         });
         if (!response.ok) {

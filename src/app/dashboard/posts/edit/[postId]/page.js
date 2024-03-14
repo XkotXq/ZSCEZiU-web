@@ -1,6 +1,5 @@
 "use client";
 import {useEffect, useState} from "react";
-import axios from "axios";
 import Boxtag from "@/app/dashboard/ui/boxtag";
 import Photodropzone from "@/app/dashboard/ui/photodropzone";
 import SaveRoundedIcon from "@mui/icons-material/SaveRounded";
@@ -9,11 +8,35 @@ import {format} from "date-fns";
 import {pl} from "date-fns/locale";
 import NotesRoundedIcon from "@mui/icons-material/NotesRounded";
 import {BookmarkIcon, DocumentIcon, PhotoIcon, VideoCameraIcon} from "@heroicons/react/20/solid";
-import Postcomponent from "@/app/dashboard/ui/post/postcomponent";
 import EditPostComponent from "@/app/dashboard/ui/post/editPostComponent";
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from "next/navigation"
+import "../../../ui/titles.css"
 
+
+const getPosts = async (setContent, setNewTitle, setNewDesc, setActiveTag, setImg, setIsReady, params) => {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
+    try {
+        const res = await fetch(`${apiUrl}/api/allposts/${params.postId}`, {
+            cache: "no-store"
+        })
+        if (!res.ok) {
+            throw new Error("Nie udało się pobrać postów")
+        }
+        const posts = await res.json()
+        if (posts) {
+            console.log(posts.post)
+            setContent(posts.post.content)
+            setNewTitle(posts.post.title)
+            setNewDesc(posts.post.desc)
+            setActiveTag(posts.post.tags)
+            setImg(posts.post.img)
+            setIsReady(true)
+        }
+    } catch (error) {
+        console.log("Błąd ładowania postów: ", error)
+    }
+}
 export default function page({ params }) {
     const [newTitle, setNewTitle] = useState("Ładowanie...")
     const [newDesc, setNewDesc] = useState("Ładowanie...")
@@ -28,16 +51,7 @@ export default function page({ params }) {
     const today = new Date();
     const formattedDate = format(today, 'd MMMM yyyy', { locale: pl });
     useEffect(() => {
-    axios
-        .get(`http://localhost:3001/api/posts/${params.postId}`)
-        .then(res => {
-            setContent(res.data.content)
-            setNewTitle(res.data.title)
-            setNewDesc(res.data.desc)
-            setActiveTag(res.data.tags)
-            setImg(res.data.img)
-            setIsReady(true)
-        })
+        getPosts(setContent, setNewTitle, setNewDesc, setActiveTag, setImg, setIsReady, params)
     }, []);
 
     useEffect(() => {
@@ -63,7 +77,8 @@ export default function page({ params }) {
         };
         console.log(editedPost)
         try {
-            const res = await fetch(`/api/posts/${params.postId}`, {
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
+            const res = await fetch(`${apiUrl}/api/posts/${params.postId}`, {
                 method: "PUT",
                 headers: {
                     "Content-type": "application/json",
@@ -91,7 +106,7 @@ export default function page({ params }) {
                     value: {
                         "blocks": [
                             {
-                                "key": "kkkcb",
+                                "key": "kkkc",
                                 "text": "",
                                 "type": "unstyled",
                                 "depth": 0,
@@ -132,8 +147,6 @@ export default function page({ params }) {
                         <label htmlFor="title">Tytuł postu</label>
                         <Input type="text" name="title" maxLength={90} isDisabled={!isReady} value={newTitle} onValueChange={setNewTitle} placeholder="podaj swój tytuł"/>
                         <Boxtag activeTag={activeTag} setActiveTag={setActiveTag}/>
-                        <label>Wybierz zdjęcie</label>
-                        <Photodropzone onImageDrop={(imageFile) => setImg(imageFile)} type="photo"/>
                         <label htmlFor="desc">Opis postu</label>
                         <Input type="text" name="desc" maxLength={150} isDisabled={!isReady} value={newDesc} onValueChange={setNewDesc} placeholder="podaj swój opis"/>
 

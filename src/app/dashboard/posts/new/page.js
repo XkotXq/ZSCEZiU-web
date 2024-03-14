@@ -1,22 +1,21 @@
 "use client";
-import {useState} from "react";
+import { useState } from "react";
 import Postcomponent from "@/app/dashboard/ui/post/postcomponent";
 import { v4 as uuidv4 } from 'uuid';
 import NotesRoundedIcon from '@mui/icons-material/NotesRounded';
-import { PhotoIcon, BookmarkIcon, VideoCameraIcon, PaperAirplaneIcon, DocumentIcon, BackwardIcon  } from "@heroicons/react/20/solid";
-import { Card, CardHeader, CardBody, Image, Chip } from "@nextui-org/react";
+import { PhotoIcon, BookmarkIcon, VideoCameraIcon, PaperAirplaneIcon, DocumentIcon, BackwardIcon } from "@heroicons/react/20/solid";
+import { Card, CardHeader, CardBody, Image, Chip, Button } from "@nextui-org/react";
 import Photodropzone from "@/app/dashboard/ui/photodropzone";
 import { format } from 'date-fns';
 import { pl } from 'date-fns/locale';
 import SaveRoundedIcon from '@mui/icons-material/SaveRounded';
 import Boxtag from "@/app/dashboard/ui/boxtag";
 import Snackbar from '@mui/material/Snackbar';
-import axios from "axios";
 import { useRouter } from "next/navigation";
 
 export default function page() {
     const [postComponents, setPostComponents] = useState([])
-    const [img, setImg] = useState(null)
+    const [img, setImg] = useState("")
     const [newTitle, setNewTitle] = useState("")
     const [newDesc, setNewDesc] = useState("")
     const [posts, setPosts] = useState({})
@@ -25,6 +24,8 @@ export default function page() {
     const [activeTag, setActiveTag] = useState("ZSCEZiU")
     const [state, setState] = useState(false);
     const router = useRouter()
+
+    const [file, setFile] = useState("")
 
     const today = new Date();
     const formattedDate = format(today, 'd MMMM yyyy', { locale: pl });
@@ -52,16 +53,14 @@ export default function page() {
         }
     }
 
-    const addDataPost = () => {
+    const addDataPost = async () => {
         if (newTitle === "" || newDesc === "") {
             setState(true)
             return;
         }
-        let imgUrl
+        let imgUrl = "/assets/default-image.jpg";
         if (img) {
-            return
-        } else {
-            imgUrl = "/assets/default-image.jpg"
+            imgUrl = await sendImage();
         }
         const primaryPostData = {
             id: uuidv4(),
@@ -70,23 +69,66 @@ export default function page() {
             date: formattedDate,
             img: imgUrl,
             desc: newDesc,
+            share: false,
             content: []
         }
+        console.log(primaryPostData)
         setPosts(primaryPostData)
         setPrimaryConfig(!primaryConfig)
     }
-    const sendPost = () => {
-        const readyPost = {...posts, content: components }
-        console.log(readyPost)
-        axios.post("http://localhost:3001/api/posts", readyPost)
-            .then(res => {
-                console.log("wysłano")
-                router.replace("/dashboard/posts")
+    const sendPost = async () => {
+        try {
+            const readyPost = { ...posts, content: components };
+            const response = await fetch("http://localhost:3000/api/posts", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(readyPost),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            console.log("Response:", data);
+            router.replace("/dashboard/posts");
+        } catch (error) {
+            console.error("error ", error);
+        }
+    };
+
+
+    const sendImage = async () => {
+        if (!file) return;
+        console.log(file)
+        try {
+            const data = new FormData()
+            data.set("file", file)
+
+            const res = await fetch("http://localhost:3000/api/upload", {
+                method: "POST",
+                body: data
             })
-            .catch(error => {
-                console.error("error dlaczego", error)
-            })
+            if(!res.ok) throw new Error(await res.text())
+            const responseData = await res.json();
+            setImg(responseData.path);
+            return responseData.path
+        } catch (e) {
+            console.error(e)
+        }
     }
+
+    const imageDrop = (imageFile) => {
+        if (imageFile) {
+            console.log("drop")
+            const url = URL.createObjectURL(imageFile[0]);
+            setImg(url);
+            setFile(imageFile[0])
+        }
+    }
+
     return (
         <div className="flex flex-col gap-2">
                 <div className="bg-custom-gray-900 w-full rounded-md p-2 flex justify-between">
@@ -103,12 +145,14 @@ export default function page() {
                             <input type="text" name="title" className="bg-custom-gray-800 focus:outline-none p-2 rounded-md" maxLength={90} value={newTitle} onChange={(e) => setNewTitle(e.target.value)} placeholder="tytuł"/>
                             <Boxtag activeTag={activeTag} setActiveTag={setActiveTag}/>
                             <label>Wybierz zdjęcie</label>
-                            <Photodropzone onImageDrop={(imageFile) => setImg(imageFile)} type="photo"/>
+                                <Photodropzone onImageDrop={(imageFile) => imageDrop(imageFile)} type="photo"/>
+                            <Button isDisabled={!img} onClick={() => setImg("")}>usuń zdjęcie</Button>
+                            {/*<input type="text" className="bg-custom-gray-800 focus:outline-none p-2 rounded-md" value={img} onChange={(e) => setImg(e.target.value)}/>*/}
                             <label htmlFor="desc">Opis postu</label>
                             <input type="text" name="desc" className="bg-custom-gray-800 focus:outline-none p-2 rounded-md" maxLength={160} value={newDesc} onChange={(e) => setNewDesc(e.target.value)} placeholder="opis"/>
 
                         </div>
-                            <div className="flex justify-end">
+                            <div className="flex justify-end mt-2">
                                 <button className="bg-blue-500 border-blue-500 border-2  p-1 rounded-md flex gap-2 hover:bg-blue-600" onClick={addDataPost}>zapisz <SaveRoundedIcon /></button>
                             </div>
                     </Card>
@@ -135,7 +179,7 @@ export default function page() {
                                             radius="sm"
                                             alt={newTitle}
                                             className="w-full object-cover h-[200px]"
-                                            src={img ? URL.createObjectURL(img) : "/assets/default-image.jpg"}
+                                            src={img ? img : "/assets/default-image.jpg"}
                                         />
                                     </div>
                                     <div className="w-1/2">
