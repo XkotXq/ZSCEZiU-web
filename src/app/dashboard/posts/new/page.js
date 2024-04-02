@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import UnauthorizedError from "@/app/dashboard/ui/UnauthorizedError";
 import { useSession } from 'next-auth/react';
 import {useEffect, useState} from "react";
+
 export default function page() {
     const [postComponents, setPostComponents] = useState([])
     const [img, setImg] = useState("")
@@ -26,7 +27,7 @@ export default function page() {
     const [state, setState] = useState(false);
     const router = useRouter()
     const { data: session, status } = useSession();
-
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
     const [file, setFile] = useState("")
 
     const today = new Date();
@@ -75,7 +76,7 @@ export default function page() {
     const sendPost = async () => {
         try {
             const readyPost = { ...posts, content: components };
-            const response = await fetch("http://localhost:3000/api/posts", {
+            const response = await fetch(`${apiUrl}/api/posts`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -102,7 +103,7 @@ export default function page() {
             const data = new FormData()
             data.set("file", file)
 
-            const res = await fetch("http://localhost:3000/api/upload", {
+            const res = await fetch(`${apiUrl}/api/upload`, {
                 method: "POST",
                 body: data
             })

@@ -21,6 +21,7 @@ export default function page() {
     const [isDisabled, setIsDisabled] = useState(true)
     const cleanedState = textState.trim().replace(/<[^>]+>/g, '');
     const [activeTags, setActiveTags] = useState("")
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
     useEffect(() => {
         if (session) {
             setType(session.user.permission)
@@ -49,7 +50,7 @@ export default function page() {
             files.forEach(file => {
                 data.append("file", file);
             });
-            const res = await fetch("http://localhost:3000/api/upload", {
+            const res = await fetch(`${apiUrl}/api/upload`, {
                 method: "POST",
                 body: data
             });
@@ -84,7 +85,7 @@ export default function page() {
                 setTextState("")
                 setFiles([])
                 console.log(newPost)
-                const response = await fetch("http://localhost:3000/api/services", {
+                const response = await fetch(`${apiUrl}/api/services`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
