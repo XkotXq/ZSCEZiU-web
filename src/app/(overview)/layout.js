@@ -4,7 +4,7 @@ import Newnavigation from "@/app/ui/navigation/newnavigation";
 
 export default function appLayout({ children }) {
     return (
-        <div className="flex flex-col sm:p-2 max-w-screen-2xl mx-auto bg-black">
+        <div className="flex flex-col sm:p-2 max-w-screen-2xl mx-auto">
             {/*<Navigation/>*/}
             <Newnavigation/>
             <div className="w-full z-20">

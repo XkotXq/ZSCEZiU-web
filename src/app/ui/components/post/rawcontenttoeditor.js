@@ -7,7 +7,6 @@ const Rawcontenttoeditor = ({ rawContent }) => {
         entityMap: {},
     };
     const contentState = convertFromRaw(loadedRawContentBlocksOnly);
-
     const editorState = EditorState.createWithContent(contentState);
 
     return (

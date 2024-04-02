@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 const userSchema = mongoose.Schema({
     username: {
         type: String,
-        required: [true, "Must provide a username."],
-        unique: [true, "Must be unique."]
+        required: [true, "Musisz podac nazwe uzytkownika."],
+        unique: [true, "Nazwa uzytkownika musi byc unikalna"]
     },
     email: {
         type: String,
@@ -12,31 +12,13 @@ const userSchema = mongoose.Schema({
     },
     password: {
         type: String,
-        required: [true, "Must provide a password"]
+        required: [true, "Musisz podac haslo"]
     },
-    permissions: {
-        createPosts: {
-            type: Boolean,
-            default: false
-        },
-        editPosts: {
-            type: Boolean,
-            default: false
-        },
-        removePosts: {
-            type: Boolean,
-            default: false
-        },
-        managePosts: {
-            type: Boolean,
-            default: false
-        },
-        administrator: {
-            type: Boolean,
-            default: false
-        }
-    }
-},
+    permission: {
+        type: String,
+        required: [true, "Musisz podać uprawnienia"]
+    },
+    },
 {
     timestamps: true
 })

@@ -1,9 +1,6 @@
 "use client";
 import { TrashIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid";
-import {useState} from "react";
-import { Editor, EditorState, convertToRaw, RichUtils } from 'draft-js';
-import "draft-js/dist/Draft.css"
-import Formatbar from "@/app/dashboard/ui/formatbar";
+import {useEffect, useState} from "react";
 import "../titles.css"
 import { v4 as uuidv4 } from 'uuid';
 import Photodropzone from "@/app/dashboard/ui/photodropzone";
@@ -16,52 +13,27 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Popover, PopoverTrigger, PopoverContent} from "@nextui-org/react";
+import TipTap from "@/app/ui/components/tiptap";
 
 export default function Postcomponent({ type, id, removePostComponent, components, setComponents }) {
-    const [editorState, setEditorState] = useState(EditorState.createEmpty());
-    const [urlFilm, setUrlFilm] = useState("")
+    const [editorState, setEditorState] = useState("");
     const [uploadedFiles, setUploadedFiles] = useState([]);
     const [showSendItemList, setShowSendItemList] = useState(true)
-    const handleChange = (newEditorState) => {
-        const contentState = editorState.getCurrentContent();
-        const rawContent = convertToRaw(contentState);
-        if (components.some(component => component.id === id)) {
-            const component = components.find(item => item.id === id)
-            const updateComponent = {...component , value: rawContent }
-            console.log(rawContent)
-            const updateComponents = updateObjectInTable(id, updateComponent)
-            setComponents(updateComponents)
 
-
+    useEffect(() => {
+        if (components.some(component => component.id === id))
+        {
+            setComponents(updateObjectInTable(id, {value: editorState}))
         } else {
-            const element = {
+            const newComponent = {
                 id: id,
                 type: type,
-                value: rawContent
+                value: editorState
             }
-            setComponents(components.concat(element))
+            setComponents(components.concat(newComponent))
         }
+    }, [editorState]);
 
-        setEditorState(newEditorState);
-    };
-    const sendPhoto = (imageFile) => {
-        setPhotos([imageFile])
-        setUploadedFiles([imageFile])
-        if (components.some(component => component.id === id)) {
-            const component = components.find(item => item.id === id)
-            const updateComponent = {...component, url: uuidv4() }
-            const updateComponents = updateObjectInTable(id, updateComponent)
-            setComponents(updateComponents)
-        } else {
-            const element = {
-                id: id,
-                type: type,
-                url: uuidv4()
-            }
-            console.log(imageFile)
-            setComponents(components.concat(element))
-        }
-    }
     const sendFile = (files) => {
         const photoUrls = files.map(file => ({
             url: uuidv4(),
@@ -99,52 +71,7 @@ export default function Postcomponent({ type, id, removePostComponent, component
 
         return updatedTable;
     };
-    const newUrlFilm = (e) => {
-        setUrlFilm(e.target.value)
-        // const youtubeLink = e.target.value
-        // const newEmbedLink = youtubeLink.replace('watch?v=', 'embed/');
-        if (components.some(component => component.id === id)) {
-            const component = components.find(item => item.id === id)
-            const updateComponent = {...component , url: e.target.value }
-            const updateComponents = updateObjectInTable(id, updateComponent)
-            setComponents(updateComponents)
-        }
-        else {
-            const element = {
-                id: id,
-                type: type,
-                value: e.target.value
-            }
-            setComponents(components.concat(element))
-        }
-        console.log(urlFilm)
-    }
 
-
-    const editText = (styla) => {
-        let newEditorState;
-
-        switch (styla) {
-            case 'BOLD':
-            case 'UNDERLINE':
-            case 'ITALIC':
-                newEditorState = RichUtils.toggleInlineStyle(editorState, styla);
-                break;
-            case 'header-one':
-            case 'header-two':
-            case 'unordered-list-item':
-            case 'ordered-list-item':
-                newEditorState = RichUtils.toggleBlockType(editorState, styla);
-                break;
-            case 'blockquote':
-                newEditorState = RichUtils.toggleBlockType(editorState, 'blockquote');
-                break;
-            default:
-                newEditorState = editorState;
-        }
-
-        setEditorState(newEditorState);
-    };
     const removeFile = (index) => {
         const updatedFiles = [...uploadedFiles];
         updatedFiles.splice(index, 1);
@@ -169,17 +96,17 @@ export default function Postcomponent({ type, id, removePostComponent, component
             return (
             <div className="w-full bg-custom-gray-800 p-2 rounded-md flex gap-2 items-end">
                 <div className="w-full flex flex-col gap-2">
-                    <div className="flex justify-between items-center">
-                        <div>
-                            <Formatbar editText={editText}/>
-                        </div>
-                        <div className="text-custom-gray-600 text-2xl font-medium">
-                            TEKST
-                        </div>
-                    </div>
-                    <div className="bg-custom-gray-900 p-2 rounded-md">
-                    <Editor editorState={editorState} onChange={handleChange}/>
-                    </div>
+                {/*    <div className="flex justify-between items-center">*/}
+                {/*        <div>*/}
+                {/*            <Formatbar editText={editText}/>*/}
+                {/*        </div>*/}
+                {/*        <div className="text-custom-gray-600 text-2xl font-medium">*/}
+                {/*            TEKST*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*    <div className="bg-custom-gray-900 p-2 rounded-md">*/}
+                {/*    <Editor editorState={editorState} onChange={handleChange}/>*/}
+                    <TipTap setTextState={setEditorState}/>
                 </div>
                 <div className="h-full">
                     <Popover placement="left" showArrow={true}>

@@ -6,7 +6,8 @@ export const options = {
             credentials: {},
             async authorize(credentials) {
                 try {
-                    const user = login(credentials)
+                    // const user = login(credentials)
+                    const user = {id : "42", login: "pablo", password: "ad", role: "admin"}
                     return user;
                 } catch (error) {
                     console.log("Error: ", error);

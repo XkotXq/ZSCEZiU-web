@@ -28,6 +28,7 @@ export const authOptions = {
             async authorize(credentials) {
                 try {
                     const user = await login(credentials)
+                    // const user = {id : "42", username: "pablo", password: "ad", role: "admin"}
                     return user;
                 } catch (error) {
                     console.log("Error: ", error);
@@ -42,7 +43,7 @@ export const authOptions = {
             if (user) {
                 token.username = user.username;
                 token.email = user.email;
-                token.permissions = user.permissions
+                token.permission = user.permission
                 token.id = user.id;
             }
             return token;
@@ -52,7 +53,7 @@ export const authOptions = {
             if (token) {
                 session.user.username = token.username;
                 session.user.email = token.email;
-                session.user.permissions = token.permissions
+                session.user.permission = token.permission
                 session.user.id = token.id;
             }
 

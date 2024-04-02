@@ -1,8 +1,14 @@
 import {connectDB} from "../../../../utils/connect";
 import Post from "../../../../models/postModel";
 import {NextResponse} from "next/server";
+import {getSession} from "next-auth/react";
+import {getServerSession} from "next-auth";
 
 export async function POST(req) {
+    const session = await getServerSession(req)
+    if (!session) {
+        return NextResponse.json({error: "User is not authenticated"}, {status: 401})
+    }
     const { title, tags, date, img, desc, content } = await req.json();
     await connectDB();
     await Post.create({ title, tags, date, img, desc, content });

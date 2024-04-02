@@ -2,11 +2,13 @@
 import { Card } from "@nextui-org/react";
 import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Link, Button } from "@nextui-org/react";
 import { useEffect, useState } from "react";
+import {useSession} from "next-auth/react";
+import UnauthorizedError from "@/app/dashboard/ui/UnauthorizedError";
 
 
 export default function page() {
     const [subpages, setSubpages] = useState([])
-
+    const { data: session, status } = useSession();
     const getsubpages = async () => {
         try {
             const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
@@ -67,37 +69,44 @@ export default function page() {
 
 
     }
-
-    return (
-        <div className="flex flex-col gap-2">
-            <Card className="flex w-full items-center justify-between flex-row p-3">
+    if (session && session?.user.permission === "administrator") {
+        return (
+            <div className="flex flex-col gap-2">
+                <Card className="flex w-full items-center justify-between flex-row p-3">
+                    <div>
+                        <h1 className="text-3xl">Zarządzanie podstronami</h1>
+                    </div>
+                </Card>
                 <div>
-                    <h1 className="text-3xl">Zarządzanie podstronami</h1>
+                    <Table aria-label="Tabela zawiera strony do edytowania" isStriped className="text-lg">
+                        <TableHeader>
+                            <TableColumn>lp</TableColumn>
+                            <TableColumn>nazwa</TableColumn>
+                            <TableColumn>ścieżka</TableColumn>
+                            <TableColumn>opcje</TableColumn>
+                        </TableHeader>
+                        <TableBody>
+                            {subpages.map((subpage, index) => (
+                                <TableRow key={index + subpage.path}>
+                                    <TableCell>{index + 1}</TableCell>
+                                    <TableCell>{subpage.title}</TableCell>
+                                    <TableCell>{"/" + subpage.path}</TableCell>
+                                    <TableCell className="flex gap-2">
+                                        <Button color={subpage.share ? "success" : "warning"}
+                                                onClick={() => switchShare(subpage.id)}>{subpage.share ? "publiczna" : "prywatna"}</Button>
+                                        <Button as={Link} href={`/dashboard/sites/edit/${subpage.path}`}
+                                                color="primary">edytuj</Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
                 </div>
-            </Card>
-            <div>
-                <Table aria-label="Tabela zawiera strony do edytowania" isStriped className="text-lg">
-                    <TableHeader>
-                        <TableColumn>lp</TableColumn>
-                        <TableColumn>nazwa</TableColumn>
-                        <TableColumn>ścieżka</TableColumn>
-                        <TableColumn>opcje</TableColumn>
-                    </TableHeader>
-                    <TableBody>
-                        {subpages.map((subpage, index ) => (
-                            <TableRow key={index + subpage.path}>
-                                <TableCell>{index + 1}</TableCell>
-                                <TableCell>{subpage.title}</TableCell>
-                                <TableCell>{"/" + subpage.path}</TableCell>
-                                <TableCell className="flex gap-2">
-                                    <Button color={subpage.share ? "success": "warning"} onClick={() => switchShare(subpage.id)}>{subpage.share ? "publiczna": "prywatna"}</Button>
-                                    <Button as={Link} href={`/dashboard/sites/edit/${subpage.path}`} color="primary">edytuj</Button>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
             </div>
-        </div>
-    )
+        )
+    } else {
+        return (
+            <UnauthorizedError />
+        )
+    }
 }

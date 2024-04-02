@@ -1,11 +1,13 @@
 "use client"
 import { PlusCircleIcon, TrashIcon, PencilIcon, LockClosedIcon, EyeIcon } from "@heroicons/react/20/solid";
-import {Popover, PopoverTrigger, PopoverContent} from "@nextui-org/react";
-import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip, Card, Tooltip } from "@nextui-org/react";
+import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip, Card, Tooltip, Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
 import {useEffect, useState} from "react";
+import { useSession } from 'next-auth/react';
+import UnauthorizedError from "@/app/dashboard/ui/UnauthorizedError";
 export default function page() {
     const [posts, setPosts] = useState([])
-
+    const [isFetched, setIsFetched] = useState(false)
+    const { data: session, status } = useSession();
     const getPosts = async () => {
         try {
             const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
@@ -16,6 +18,7 @@ export default function page() {
                 const posts = await res.json()
                 if (posts) {
                     setPosts(posts.posts)
+                    setIsFetched(true)
                 }
             }
         } catch (error) {
@@ -86,119 +89,135 @@ export default function page() {
         }
 
     }
-
-    return (
-        <div className="w-full flex flex-col gap-2">
-            <Card className="flex w-full items-center justify-between flex-row p-3">
-                <div>
-                    <h1 className="text-3xl">Zarządzanie postami</h1>
-                </div>
-                <div>
-                    <a href="posts/new" className="hover:bg-green-600 bg-green-500 text-custom-gray-900 p-2 rounded-md flex gap-2">Dodaj Post <PlusCircleIcon className="h-6 w-6" /></a>
-                </div>
-            </Card>
-            <div className="rounded-md overflow-hidden">
-                <Table aria-label="Tabela zawierająca listę postów"
-                       isStriped
-                >
-                    <TableHeader>
-                        <TableColumn className="text-center">LP</TableColumn>
-                        <TableColumn>TYTUŁ</TableColumn>
-                        <TableColumn className="text-center">STAN</TableColumn>
-                        <TableColumn>TAG</TableColumn>
-                        <TableColumn>DATA</TableColumn>
-                        <TableColumn>OPCJE</TableColumn>
-                    </TableHeader>
-                    <TableBody>
-                        {posts.map((post, index) => (
-                            <TableRow key={post.id}>
-                                <TableCell>
-                                    <Tooltip showArrow color="primary" content={"post o id " + post.id} placement="right">
-                                        <div className="mx-auto flex justify-center">
-                                            {index+1}
-                                        </div>
-                                    </Tooltip>
-                                </TableCell>
-                                <TableCell>
-                                    <a
-                                        className="text-base"
-                                        title="podgląd"
-                                        href={"/posty/" + post.id}
-                                        target="_blank"
-                                    >
-                                        {post.title}
-                                    </a>
-                                </TableCell>
-                                <TableCell>
-                                    <div className="flex justify-center items-center">
-                                        {post.share ?
-                                            <Tooltip showArrow color="success" content="post publiczny" placement="left">
-                                                <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                                            </Tooltip> :
-                                            <Tooltip showArrow color="warning" content="post prywatny" placement="left">
-                                                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                                            </Tooltip>
-                                        }
-                                    </div>
-                                </TableCell>
-                                <TableCell>{post.tags.map(tag => <Chip key={tag}>{tag}</Chip>)}</TableCell>
-                                <TableCell>{post.date}</TableCell>
-                                <TableCell><div className="flex gap-2 items-center">
-                                    <div>
-                                        <button
-                                            title={post.share? "zmień na prywatne" : "zmień na publiczne"}
-                                            className="bg-green-500 px-2 py-1 rounded-md text-[#18181b] border-2 border-green-500 hover:bg-[#18181b] hover:text-green-500 flex"
-                                            onClick={() => switchStatusPost(post.id)}
-                                        >
-                                            {post.share? (
-                                                <EyeIcon className="h-5 w-5" />
-                                            ) : (
-                                                <LockClosedIcon className="h-5 w-5" />
-                                            )}
-                                        </button>
-                                    </div>
-                                    <div>
-                                        <a
-                                            title="edytuj"
-                                            href={"/dashboard/posts/edit/" + post.id}
-                                            className="bg-blue-500 px-2 py-1 rounded-md text-custom-gray-800 border-2 border-blue-500 hover:bg-custom-gray-800 hover:text-blue-500 flex"
-                                        >
-                                            <PencilIcon  className="h-5 w-5" />
-                                        </a>
-                                    </div>
-                                    <Popover placement="left" showArrow={true}>
-                                        <PopoverTrigger>
-                                            <button
-                                                title="usuń"
-                                                className="bg-red-500 px-2 py-1 rounded-md text-custom-gray-800 border-2 border-red-500 hover:bg-custom-gray-800 hover:text-red-500"
-                                            >
-                                                <TrashIcon className="h-5 w-5" />
-                                            </button>
-                                        </PopoverTrigger>
-                                        <PopoverContent>
-                                            <div className="flex flex-col gap-2 p-2">
-                                                <div>
-                                                    <p className="text-lg">Na pewno chcesz usunąć ten post?</p>
-                                                </div>
-                                                <div>
-                                                    <button
-                                                        onClick={() => deletePost(post.id)}
-                                                        className="bg-red-500 px-2 py-1 rounded-md text-[#18181b] border-2 border-red-500 hover:bg-[#18181b] hover:text-red-500 flex gap-2"
-                                                    >
-                                                        usuń
-                                                        <TrashIcon className="h-5 w-5" />
-                                                    </button>
-                                                </div>
+    if (session && session?.user.permission === "administrator") {
+        return (
+            <div className="w-full flex flex-col gap-2">
+                <Card className="flex w-full items-center justify-between flex-row p-3">
+                    <div>
+                        <h1 className="text-3xl">Zarządzanie postami</h1>
+                    </div>
+                    <div>
+                        <a href="posts/new"
+                           className="hover:bg-green-600 bg-green-500 text-custom-gray-900 p-2 rounded-md flex gap-2">Dodaj
+                            Post <PlusCircleIcon className="h-6 w-6"/></a>
+                    </div>
+                </Card>
+                <div className="rounded-md overflow-hidden">
+                    <Table aria-label="Tabela zawierająca listę postów"
+                           isStriped
+                    >
+                        <TableHeader>
+                            <TableColumn className="text-center">LP</TableColumn>
+                            <TableColumn>TYTUŁ</TableColumn>
+                            <TableColumn className="text-center">STAN</TableColumn>
+                            <TableColumn>TAG</TableColumn>
+                            <TableColumn>DATA</TableColumn>
+                            <TableColumn>OPCJE</TableColumn>
+                        </TableHeader>
+                        <TableBody>
+                            {posts.map((post, index) => (
+                                <TableRow key={post.id}>
+                                    <TableCell>
+                                        <Tooltip showArrow color="primary" content={"post o id " + post.id}
+                                                 placement="right">
+                                            <div className="mx-auto flex justify-center">
+                                                {index + 1}
                                             </div>
-                                        </PopoverContent>
-                                    </Popover>
-                                </div>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
+                                        </Tooltip>
+                                    </TableCell>
+                                    <TableCell>
+                                        {post.share ? (
+                                            <a
+                                                className="text-base"
+                                                title="podgląd"
+                                                href={"/posty/" + post.id}
+                                                target="_blank"
+                                            >
+                                                {post.title}
+                                            </a>
+                                        ) : (
+                                            <span>{post.title}</span>
+                                        )}
+                                    </TableCell>
+                                    <TableCell>
+                                        <div className="flex justify-center items-center">
+                                            {post.share ?
+                                                <Tooltip showArrow color="success" content="post publiczny"
+                                                         placement="left">
+                                                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                                                </Tooltip> :
+                                                <Tooltip showArrow color="warning" content="post prywatny"
+                                                         placement="left">
+                                                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                                </Tooltip>
+                                            }
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>{post.tags.map(tag => <Chip key={tag}>{tag}</Chip>)}</TableCell>
+                                    <TableCell>{post.date}</TableCell>
+                                    <TableCell>
+                                        <div className="flex gap-2 items-center">
+                                            <div>
+                                                <button
+                                                    title={post.share ? "zmień na prywatne" : "zmień na publiczne"}
+                                                    className="bg-green-500 px-2 py-1 rounded-md text-[#18181b] border-2 border-green-500 hover:bg-[#18181b] hover:text-green-500 flex"
+                                                    onClick={() => switchStatusPost(post.id)}
+                                                >
+                                                    {post.share ? (
+                                                        <EyeIcon className="h-5 w-5"/>
+                                                    ) : (
+                                                        <LockClosedIcon className="h-5 w-5"/>
+                                                    )}
+                                                </button>
+                                            </div>
+                                            <div>
+                                                <a
+                                                    title="edytuj"
+                                                    href={"/dashboard/posts/edit/" + post.id}
+                                                    className="bg-blue-500 px-2 py-1 rounded-md text-custom-gray-800 border-2 border-blue-500 hover:bg-custom-gray-800 hover:text-blue-500 flex"
+                                                >
+                                                    <PencilIcon className="h-5 w-5"/>
+                                                </a>
+                                            </div>
+                                            <Popover placement="left" showArrow={true}>
+                                                <PopoverTrigger>
+                                                    <button
+                                                        title="usuń"
+                                                        className="bg-red-500 px-2 py-1 rounded-md text-custom-gray-800 border-2 border-red-500 hover:bg-custom-gray-800 hover:text-red-500"
+                                                    >
+                                                        <TrashIcon className="h-5 w-5"/>
+                                                    </button>
+                                                </PopoverTrigger>
+                                                <PopoverContent>
+                                                    <div className="flex flex-col gap-2 p-2">
+                                                        <div>
+                                                            <p className="text-lg">Na pewno chcesz usunąć ten post?</p>
+                                                        </div>
+                                                        <div>
+                                                            <button
+                                                                onClick={() => deletePost(post.id)}
+                                                                className="bg-red-500 px-2 py-1 rounded-md text-[#18181b] border-2 border-red-500 hover:bg-[#18181b] hover:text-red-500 flex gap-2"
+                                                            >
+                                                                usuń
+                                                                <TrashIcon className="h-5 w-5"/>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </PopoverContent>
+                                            </Popover>
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                    {(posts.length === 0 && isFetched) && <p className="text-center text-custom-gray-500 mt-3 text-xl">brak postów</p>}
+                </div>
             </div>
-        </div>
-    )
+        )
+    } else {
+        return (
+            <UnauthorizedError/>
+        )
+    }
 }

@@ -1,11 +1,13 @@
 import Rawcontenttoeditor from "@/app/ui/components/post/rawcontenttoeditor";
-
+import parser from "html-react-parser"
+import "../../parseStyle.css"
 export default function PostsContent({ type, data }) {
     switch (type) {
         case "desc":
             return (
                 <div>
-                    <Rawcontenttoeditor rawContent={data} />
+                    {/*<Rawcontenttoeditor rawContent={data} />*/}
+                    {parser(data)}
                 </div>
             )
         case "photo":

@@ -1,0 +1,87 @@
+.boxParse > * + * {
+    margin-top: 0.75em;
+}
+
+.boxParse ul,
+.boxParse ol {
+    padding: 0 1rem;
+}
+.boxParse ul {
+    list-style: disc;
+}
+.boxParse ol {
+    list-style: decimal;
+}
+
+.boxParse h1,
+.boxParse h2,
+.boxParse h3,
+.boxParse h4,
+.boxParse h5,
+.boxParse h6 {
+    line-height: 1.1;
+}
+.boxParse h1 {
+    font-size: 48px;
+}
+.boxParse h2 {
+    font-size: 42px;
+}
+.boxParse h3 {
+    font-size: 36px;
+}
+.boxParse h4 {
+    font-size: 30px;
+}
+.boxParse h5 {
+    font-size: 24px;
+}
+.boxParse h6 {
+    font-size: 18px;
+}
+
+.boxParse code {
+    background-color: rgba(97, 97, 97, 0.1);
+    color: #616161;
+}
+
+.boxParse pre {
+    background: #0D0D0D;
+    color: #FFF;
+    font-family: 'JetBrainsMono', monospace;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+}
+
+.boxParse pre code {
+    color: inherit;
+    padding: 0;
+    background: none;
+    font-size: 0.8rem;
+}
+
+.boxParse img {
+    max-width: 100%;
+    height: auto;
+}
+
+.boxParse blockquote {
+    padding-left: 1rem;
+    border-left: 2px solid #919191;
+}
+
+.boxParse hr {
+    border: none;
+    border-top: 2px solid #919191;
+    margin: 15px 0;
+}
+.boxParse button {
+    display: flex;
+}
+.boxParse a {
+    text-decoration: underline;
+    color: #919191;
+}
+.boxParse iframe {
+    margin: 0 auto 0 auto;
+}
