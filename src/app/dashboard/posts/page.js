@@ -4,7 +4,6 @@ import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip, C
 import {useEffect, useState} from "react";
 import { useSession } from 'next-auth/react';
 import UnauthorizedError from "@/app/dashboard/ui/UnauthorizedError";
-export const dynamic = 'force-dynamic';
 export default function page() {
     const [posts, setPosts] = useState([])
     const [isFetched, setIsFetched] = useState(false)
