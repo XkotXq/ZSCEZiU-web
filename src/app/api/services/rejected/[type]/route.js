@@ -2,6 +2,7 @@ import {connectDB} from "../../../../../../utils/connect";
 import ServiceModel from "../../../../../../models/serviceModel"
 import {NextResponse} from "next/server"
 
+export const dynamic = 'force-dynamic';
 export async function GET(req, { params }) {
     try {
         const { type } =  params

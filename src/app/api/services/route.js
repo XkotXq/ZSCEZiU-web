@@ -3,6 +3,7 @@ import ServiceModel from "../../../../models/serviceModel"
 import { NextResponse } from "next/server"
 import {getToken} from "next-auth/jwt";
 
+export const dynamic = 'force-dynamic';
 export async function GET(req) {
     const session = await getToken({req, secret:process.env.NEXTAUTH_SECRET})
     if (!session) {

@@ -2,6 +2,7 @@ import {connectDB} from "../../../../../utils/connect";
 import Subpage from "../../../../../models/subpageModel";
 import {NextResponse} from "next/server";
 
+export const dynamic = 'force-dynamic';
 export async function GET(req, { params }) {
     try {
         const { name } = params;

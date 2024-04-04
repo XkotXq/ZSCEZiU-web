@@ -2,6 +2,7 @@ import {connectDB} from "../../../../utils/connect";
 import Post from "../../../../models/postModel";
 import {NextResponse} from "next/server";
 
+export const dynamic = 'force-dynamic';
 export async function GET() {
     try {
         await connectDB();

@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import path, { join } from 'path';
 import {getToken} from "next-auth/jwt";
 
+export const dynamic = 'force-dynamic';
 export async function POST(req) {
     const session = await getToken({req, secret:process.env.NEXTAUTH_SECRET})
     if (!session) {
