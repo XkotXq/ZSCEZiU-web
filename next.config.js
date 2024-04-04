@@ -3,8 +3,10 @@ const nextConfig = {
     images: {
         domains: ['cdn.pixabay.com', 'media.istockphoto.com', 'gorka.rawa-kopernik.pl', 'drive.google.com', "google.com", "istockphoto.com"],
     },
-}
+};
+
 module.exports = {
+    ...nextConfig,
     async headers() {
         return [
             {
@@ -18,4 +20,3 @@ module.exports = {
         ];
     },
 };
-module.exports = nextConfig
