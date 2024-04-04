@@ -252,6 +252,11 @@ export default function Newnavigation() {
                         </Link>
                     </NavbarMenuItem>
                 <NavbarMenuItem className="ml-2">
+                        <Link href="/serwis" color="foreground" aria-label="rekrutacja">
+                            serwis uczniów
+                        </Link>
+                    </NavbarMenuItem>
+                <NavbarMenuItem className="ml-2">
                         <Link href="https://pl-pl.facebook.com/zsceziu" target="_blank" color="foreground" aria-label="aktualności">
                             aktualności
                         </Link>
