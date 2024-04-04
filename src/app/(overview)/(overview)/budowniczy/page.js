@@ -130,7 +130,7 @@ export default function page() {
             </Modal>
         <div className="flex flex-col">
             <div className="bg-cover relative">
-                <Image src="/images/753de9b3-8cfc-4aba-a532-433af77e4cc7.jpg" alt={"baner - budowlanka"} width={2000}  className=" h-[300px] object-cover"/>
+                <Image src="/default-banner.jpg" alt={"baner - budowlanka"} width={2000}  className=" h-[300px] object-cover"/>
                 <div className="absolute top-1/2 left-1/2 z-20 -translate-x-1/2 -translate-y-1/2 text-center bg-black bg-opacity-40 p-3 rounded-xl">
                     <h1 className="text-3xl font-bold tracking-tight">Blog dla zawodu technik budowlaniec</h1>
                     <p className="text-custom-gray-50 text-lg">Zobacz nasze ostatnie posty</p>
