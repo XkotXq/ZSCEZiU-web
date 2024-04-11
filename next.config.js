@@ -1,7 +1,32 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['cdn.pixabay.com', 'media.istockphoto.com', 'gorka.rawa-kopernik.pl', 'drive.google.com', "google.com", "istockphoto.com"],
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'cdn.pixabay.com',
+                port: '',
+                pathname: '/**'
+            },
+            {
+                protocol: 'https',
+                hostname: 'media.istockphoto.com',
+                port: '',
+                pathname: '/**'
+            },
+            {
+                protocol: 'https',
+                hostname: 'gorka.rawa-kopernik.pl',
+                port: '',
+                pathname: '/**'
+            },
+            {
+                protocol: 'https',
+                hostname: 'istockphoto.com',
+                port: '',
+                pathname: '/**'
+            },
+        ]
     },
 }
 module.exports = {

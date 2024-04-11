@@ -1,5 +1,5 @@
 "use client"
-import {Button, Card, Image} from "@nextui-org/react";
+import {Button, Card, CardBody, CardFooter, CardHeader, Chip, Divider, Image} from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import {useEffect, useState} from "react";
 import TipTap from "@/app/ui/components/tiptap";
@@ -8,6 +8,8 @@ import { Input } from "@nextui-org/react";
 import Photodropzone from "@/app/dashboard/ui/photodropzone";
 import {useRouter} from "next/navigation";
 import TagSellect from "@/app/dashboard/ui/tags/tagSellect";
+import parser from "html-react-parser";
+import {PencilSquareIcon} from "@heroicons/react/20/solid";
 
 export default function page() {
     const { data: session, status } = useSession();
@@ -21,7 +23,33 @@ export default function page() {
     const [isDisabled, setIsDisabled] = useState(true)
     const cleanedState = textState.trim().replace(/<[^>]+>/g, '');
     const [activeTags, setActiveTags] = useState("")
+    const [verifiablePosts, setVerifiablePosts] = useState([])
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
+
+    useEffect(() => {
+        if (session)
+            getVerifiablePosts()
+    }, [session]);
+    const getVerifiablePosts = async () => {
+        try {
+            const typePost = session?.user.permission.replace(/uczen/g, '').toLowerCase();
+            console.log(typePost)
+            const response = await fetch(`${apiUrl}/api/services/verifiable/${typePost}`, {
+                method: "GET",
+                cache: "no-store"
+            });
+            if (!response.ok) {
+                throw new Error("Nie udało się pobrać postów")
+            } else {
+                const servicePosts = await response.json()
+                setVerifiablePosts(servicePosts.posts)
+                console.log(servicePosts.posts)
+            }
+        } catch (e) {
+            console.log("Błąd pobierania postów: ", e)
+        }
+    }
+
     useEffect(() => {
         if (session) {
             setType(session.user.permission)
@@ -145,6 +173,50 @@ export default function page() {
                     <Image className="rounded-lg" src={URL.createObjectURL(imgFile)} alt={imgFile.name} width={100}/>
                     <Button onClick={() => removePhoto(imgFile)}>usuń</Button>
                 </Card>)}
+            </div>
+            <Card className="w-full p-3 flex items-center">
+                <h2 className="md:text-2xl text-lg text-custom-gray-300">Posty oczekujące na akceptacje</h2>
+            </Card>
+            <div className="flex justify-center gap-2 flex-col items-center">
+                {
+                    verifiablePosts.map(post => (
+                        <Card key={post.id} className="w-[800px]">
+                            <CardHeader><h2 className="text-2xl font-medium">{parser(post.title)}</h2></CardHeader>
+                            <Divider/>
+                            <CardBody className="flex flex-col gap-2">
+                                <div className="boxParse">
+                                    {parser(post.description)}
+                                </div>
+                                <div className="flex gap-2 justify-center">
+                                    {post.images.map((photo, index) => {
+                                        if (index > 2) return null;
+                                        return (
+                                            <Image src={photo} width={200}/>
+                                        );
+                                    })}
+                                    {
+                                        post.images.length >= 4 && (
+                                            <div className="flex items-center justify-center bg-custom-gray-800 rounded-lg border border-custom-gray-950 w-16 h-16">
+                                                <span className="text-custom-gray-300">+{post.images.length - 3}</span>
+                                            </div>
+                                        )
+                                    }
+                                </div>
+                            </CardBody>
+                            <Divider/>
+                            <CardFooter className="flex flex-col gap-2">
+                                <div className="flex flex-row justify-between w-full">
+                                    <div>
+                                        {post.tags.length > 0 ? post.tags.map(tag => (<Chip key={tag}>{tag}</Chip>)) : <Chip>brak tagu</Chip>}
+                                    </div>
+                                    <div>
+                                        <Chip startContent={<PencilSquareIcon className="h-4 w-4" />} variant="shadow" color="warning">{post.author ? post.author : "anonimowy"}</Chip>
+                                    </div>
+                                </div>
+                            </CardFooter>
+                        </Card>
+                    ))
+                }
             </div>
         </div>
     )

@@ -30,6 +30,10 @@ export default function page() {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
     const [file, setFile] = useState("")
 
+    useEffect(() => {
+        console.log("postComponents", postComponents)
+        console.log("components", components)
+    }, [postComponents, components])
     const today = new Date();
     const formattedDate = format(today, 'd MMMM yyyy', { locale: pl });
     const handleClose = () => {
@@ -75,7 +79,10 @@ export default function page() {
     }
     const sendPost = async () => {
         try {
-            const readyPost = { ...posts, content: components };
+            console.log("przed")
+            const processedComponents = await processSendImage(components)
+            console.log("po")
+            const readyPost = { ...posts, content: processedComponents };
             const response = await fetch(`${apiUrl}/api/posts`, {
                 method: "POST",
                 headers: {
@@ -95,7 +102,41 @@ export default function page() {
             console.error("error ", error);
         }
     };
+    const processSendImage = async (components) => {
+        const processedSendedComponents = await Promise.all(components.map(async (component) => {
+            if (component.type === "slider") {
+                const links = await sendImages(component.value);
+                console.log("te linki", links)
+                return { ...component, value: links };
+            } else {
+                return component;
+            }
+        }));
+        console.log("przeprocesowane", processedSendedComponents)
+        return processedSendedComponents;
+    };
 
+    const sendImages = async (files) => {
+        if (!files || files.length === 0) return [];
+        try {
+            const data = new FormData();
+            files.forEach(file => {
+                data.append("file", file);
+            });
+            const res = await fetch(`${apiUrl}/api/upload`, {
+                method: "POST",
+                body: data
+            });
+            if (!res.ok) {
+                throw new Error(await res.text());
+            }
+            const responseData = await res.json();
+            console.log(responseData.files)
+            return responseData.files;
+        } catch (e) {
+            console.error("Błąd podczas przesyłania plików:", e);
+        }
+    };
     const sendImage = async () => {
         if (!file) return;
         console.log(file)

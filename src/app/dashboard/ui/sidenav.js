@@ -1,6 +1,6 @@
 "use client";
 import Linknav from "@/app/dashboard/ui/linknav";
-import {PowerIcon, ChatBubbleLeftEllipsisIcon, HomeIcon, ShieldCheckIcon, WrenchScrewdriverIcon, DocumentIcon, UsersIcon } from "@heroicons/react/20/solid";
+import {PowerIcon, ChatBubbleLeftEllipsisIcon, HomeIcon, ShieldCheckIcon, WrenchScrewdriverIcon, DocumentIcon, UsersIcon, PencilIcon } from "@heroicons/react/20/solid";
 import { signOut } from "next-auth/react";
 import { useSession } from 'next-auth/react';
 
@@ -49,6 +49,7 @@ export default function Sidenav() {
                     <>
                         <Linknav href="/" value="konto" icon={HomeIcon} />
                         <Linknav href="/service" value="serwis" icon={UsersIcon} />
+                        <Linknav href="/improve" value="poprawa" icon={PencilIcon} />
                     </>
                 )
             )}

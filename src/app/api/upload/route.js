@@ -1,4 +1,4 @@
-import fs, { writeFile } from "fs/promises"
+import fs, { writeFile, unlink } from "fs/promises"
 import { NextResponse } from "next/server";
 import { v4 as uuidv4 } from 'uuid';
 import path, { join } from 'path';
@@ -36,6 +36,26 @@ export async function POST(req) {
 
     return NextResponse.json({ success: true, files: uploadedFiles });
 }
+
+
+export async function DELETE(req) {
+    const session = await getToken({req, secret: process.env.NEXTAUTH_SECRET});
+    if (!session) {
+        return NextResponse.json({ error: "User is not authenticated" }, { status: 401 });
+    }
+    const { filesToDelete } = await req.json();
+    try {
+        await Promise.all(filesToDelete.map(async (filePath) => {
+            await unlink(join(process.cwd(), "public", filePath));
+        }));
+
+        return NextResponse.json({ success: true, message: "Files deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting files:", error);
+        return NextResponse.json({ success: false, error: "Failed to delete files" });
+    }
+}
+
 export async function GET(req) {
     const session = await getToken({req, secret:process.env.NEXTAUTH_SECRET})
     if (!session) {

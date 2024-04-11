@@ -24,7 +24,7 @@ import "../../ui/parseStyle.css"
 export default function page() {
     const { data: session, status } = useSession();
     const [verifiablePosts, setVerifiablePosts] = useState([])
-    const [rejectedPosts, setRejectePosts] = useState([])
+    const [rejectedPosts, setRejectedPosts] = useState([])
     const [activePhoto, setActivePhoto] = useState("")
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
@@ -130,7 +130,6 @@ export default function page() {
         } catch (e) {
             console.log("Błąd usuwania postu: ", e)
         }
-
     }
     return (
         <div className="flex flex-col gap-2">

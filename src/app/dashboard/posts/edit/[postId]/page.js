@@ -48,7 +48,8 @@ export default function page({ params }) {
     const [isReady, setIsReady] = useState(false)
     const router = useRouter()
     const { data: session, status } = useSession();
-
+    const [deletedImages, setDeletedImages] = useState([])
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
 
 
     const today = new Date();
@@ -70,17 +71,22 @@ export default function page({ params }) {
 
     const handleRemoveComponent = (id) => {
         console.log("id do usuniecia", id)
+        const toDelete = content.find(item => item.id === id)
+        if (toDelete.type === "slider") {
+            setDeletedImages(deletedImages.concat(toDelete.value))
+        }
         const  newState = content.filter(item => item.id !== id)
         setContent(newState)
     }
     const handleSendNewPost = async () => {
+        const formattedComponents = await processSendImage(content)
+        await deleteFiles(deletedImages)
         const editedPost = {
             ...newPost,
-            content: content
+            content: formattedComponents
         };
         console.log(editedPost)
         try {
-            const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
             const res = await fetch(`${apiUrl}/api/posts/${params.postId}`, {
                 method: "PUT",
                 headers: {
@@ -98,7 +104,25 @@ export default function page({ params }) {
         }
 
     }
-
+    const processSendImage = async (components) => {
+        const processedSendedComponents = await Promise.all(components.map(async (component) => {
+            if (component.type === "slider" && component.newValue !== []) {
+                const links = await sendImages(component.newValue);
+                console.log("te linki", links)
+                const { newValue, ...rest } = component;
+                return { ...rest, value: [...component.value, ...links] };
+            } else {
+                if (component?.newValue === [])
+                {
+                    const { newValue, ...rest } = component;
+                    return { ...rest };
+                } else
+                return component;
+            }
+        }));
+        console.log("przeprocesowane", processedSendedComponents)
+        return processedSendedComponents;
+    };
 
     const addPostComponent = (type) => {
         switch (type) {
@@ -106,24 +130,18 @@ export default function page({ params }) {
                 const newDescComponent = {
                     id: uuidv4(),
                     type: type,
-                    value: {
-                        "blocks": [
-                            {
-                                "key": "kkkc",
-                                "text": "",
-                                "type": "unstyled",
-                                "depth": 0,
-                                "inlineStyleRanges": [],
-                                "entityRanges": [],
-                                "data": {}
-                            }
-                        ],
-                        "entityMap": {}
-                    }
+                    value: ""
                 }
                 setContent(content.concat(newDescComponent))
-                break;
-
+            break;
+            case "slider":
+                const newSliderComponent = {
+                    id: uuidv4(),
+                    type: type,
+                    value: []
+                }
+                setContent(content.concat(newSliderComponent))
+            break;
             case "video":
                 const newVideoComponent = {
                     id: uuidv4(),
@@ -131,9 +149,48 @@ export default function page({ params }) {
                     value: "",
                 }
                 setContent(content.concat(newVideoComponent))
-                break;
+            break;
         }
     }
+    const sendImages = async (files) => {
+        if (!files || files.length === 0) return [];
+        try {
+            const data = new FormData();
+            files.forEach(file => {
+                data.append("file", file);
+            });
+            const res = await fetch(`${apiUrl}/api/upload`, {
+                method: "POST",
+                body: data
+            });
+            if (!res.ok) {
+                throw new Error(await res.text());
+            }
+            const responseData = await res.json();
+            console.log(responseData.files)
+            return responseData.files;
+        } catch (e) {
+            console.error("Błąd podczas przesyłania plików:", e);
+        }
+    };
+    const deleteFiles = async (filesToDelete) => {
+        try {
+            const res = await fetch(`${apiUrl}/api/upload`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ filesToDelete })
+            })
+            if (!res.ok) {
+                throw new Error("Błąd usuwania zdjęcia")
+            }
+        } catch (e) {
+            console.log("błąd usuwania plików", e)
+        }
+    }
+
+
     if (session && session?.user.permission === "administrator") {
         return (
             <div className="flex flex-col gap-2">
@@ -214,6 +271,8 @@ export default function page({ params }) {
                                 newContent={content}
                                 item={item}
                                 removeComponent={handleRemoveComponent}
+                                deletedImages={deletedImages}
+                                setDeletedImages={setDeletedImages}
                             />)}
                     </div>
                 </div>

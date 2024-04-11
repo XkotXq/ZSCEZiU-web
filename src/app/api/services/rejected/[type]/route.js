@@ -7,7 +7,7 @@ export async function GET(req, { params }) {
     try {
         const { type } =  params
         await connectDB();
-        const posts = await ServiceModel.find({serviceType: type, state: "rejected" })
+        const posts = await ServiceModel.find({ serviceType: type, state: "rejected" })
         if (!posts) {
             return NextResponse.json({ error: `Brak postów dla kategorii ${type}`}, { status: 404})
         } else {
