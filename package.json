@@ -16,6 +16,7 @@
     "@mui/icons-material": "^5.15.6",
     "@mui/material": "^5.15.6",
     "@nextui-org/react": "^2.2.9",
+    "@tiptap/extension-character-count": "^2.3.0",
     "@tiptap/extension-color": "^2.2.4",
     "@tiptap/extension-link": "^2.2.4",
     "@tiptap/extension-list-item": "^2.2.4",

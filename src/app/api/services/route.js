@@ -26,8 +26,9 @@ export async function POST(req) {
         const { title, description, serviceType, images, author } = await req.json()
         await connectDB()
         const state = "verifiable"
-        await ServiceModel.create({ title, description, serviceType, state, images, author })
-        return NextResponse.json({message: "Post przeslany do sprawdzenia"}, {status: 201})
+        const tags = []
+        await ServiceModel.create({ title, description, serviceType, state, images, author, tags })
+        return NextResponse.json({ title, description, serviceType, state, images, author, tags }, {status: 201})
     } catch (error) {
         console.log("error", error)
         return NextResponse.json({ error: 'Blad przy przesylaniu postu' });
@@ -69,7 +70,9 @@ export async function DELETE(req) {
         await connectDB()
         const result = await ServiceModel.findByIdAndDelete(id)
         if (!result) return NextResponse.json({ error: "Post not found" }, { status: 404 });
-        return NextResponse.json({}, { status: 204 });
+        return new Response(null, {
+            status: 204,
+        })
     } catch (e) {
         console.log("error", e)
         return NextResponse.json({ error: "Błąd podczas usuwania postu" }, { status: 500 });

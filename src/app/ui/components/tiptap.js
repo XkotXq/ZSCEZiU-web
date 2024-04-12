@@ -10,6 +10,7 @@ import Underline from "@tiptap/extension-underline"
 import {Button, ButtonGroup, Popover, PopoverTrigger, PopoverContent, Input } from "@nextui-org/react";
 import Link from "@tiptap/extension-link"
 import Youtube from  "@tiptap/extension-youtube"
+import CharacterCount from "@tiptap/extension-character-count"
 import {useState} from "react";
 
 const MenuBar = () => {
@@ -359,35 +360,41 @@ const MenuBar = () => {
     )
 }
 
-const extensions = [
-  Color.configure({ types: [TextStyle.name, ListItem.name] }),
-  TextStyle.configure({ types: [ListItem.name] }),
-  Underline.configure(),
-    Youtube.configure(),
-  StarterKit.configure({
-    bulletList: {
-      keepMarks: true,
-      keepAttributes: false,
-    },
-    orderedList: {
-      keepMarks: true,
-      keepAttributes: false,
-    },
-  }),
-    Link.configure({
-        HTMLAttributes: {
-            target: '_blank',
-        },
-    }),
-];
 
 
 
-const TipTap = ({ setTextState, textState }) => {
+
+const TipTap = ({ setTextState, textState, limit=null }) => {
     let content = ``
     if (textState) {
         content = textState
     }
+
+    const extensions = [
+        Color.configure({ types: [TextStyle.name, ListItem.name] }),
+        TextStyle.configure({ types: [ListItem.name] }),
+        Underline.configure(),
+        Youtube.configure(),
+        CharacterCount.configure({
+            limit: limit
+        }),
+        StarterKit.configure({
+            bulletList: {
+                keepMarks: true,
+                keepAttributes: false,
+            },
+            orderedList: {
+                keepMarks: true,
+                keepAttributes: false,
+            },
+        }),
+        Link.configure({
+            HTMLAttributes: {
+                target: '_blank',
+            },
+        }),
+    ];
+
     const handleUpdate = ({ editor }) => {
       const html = editor.getHTML();
       setTextState(html);

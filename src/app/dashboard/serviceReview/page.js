@@ -124,6 +124,7 @@ export default function page() {
             if (!response.ok) {
                 console.log(response)
                 throw new Error("Network response was not ok");
+                return
             }
             const updatedVerifiablePosts = verifiablePosts.filter(post => post.id !== id)
             setVerifiablePosts(updatedVerifiablePosts)

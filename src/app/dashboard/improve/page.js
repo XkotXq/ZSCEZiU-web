@@ -10,6 +10,7 @@ import {
     CardFooter,
     Chip,
     Modal,
+    Link,
     ModalContent, ModalHeader, ModalBody, useDisclosure
 } from "@nextui-org/react";
 import { useEffect, useState } from "react";
@@ -173,7 +174,7 @@ export default function page() {
                                     </div>
                                 </div>
                                 <div className="flex flex-row gap-2 justify-end w-full">
-                                    <Button color="primary" variant="shadow">Edytuj</Button>
+                                    <Button color="primary" variant="shadow" as={Link} href={`/dashboard/improve/${post.id}`}>Edytuj</Button>
                                     <Button color="danger" variant="shadow" onClick={() => removePost(post.id)}>Usuń</Button>
                                 </div>
                             </CardFooter>

@@ -24,6 +24,10 @@ export default function page() {
     const cleanedState = textState.trim().replace(/<[^>]+>/g, '');
     const [activeTags, setActiveTags] = useState("")
     const [verifiablePosts, setVerifiablePosts] = useState([])
+    const [isFetchedPosts, setIsFetchedPosts] = useState(false)
+    const [isActiveList, setIsActiveList] = useState(false)
+    const [message, setMessage] = useState("")
+    const reverseVerifiablePosts = verifiablePosts.slice().reverse()
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
 
     useEffect(() => {
@@ -43,6 +47,7 @@ export default function page() {
             } else {
                 const servicePosts = await response.json()
                 setVerifiablePosts(servicePosts.posts)
+                setIsFetchedPosts(true)
                 console.log(servicePosts.posts)
             }
         } catch (e) {
@@ -61,6 +66,13 @@ export default function page() {
         if (type && textTitleValue !== "" && cleanedState !== "") setIsDisabled(false)
         else setIsDisabled(true)
     }, [textState, textTitleValue, type]);
+    useEffect(() => {
+        if (message) {
+            setTimeout(() => {
+                setMessage("")
+            }, 3000)
+        }
+    }, [message])
     const imageDrop = (imageFiles) => {
         if (imageFiles) {
             console.log("drop", imageFiles)
@@ -125,7 +137,8 @@ export default function page() {
                 }
                 const data = await response.json()
                 console.log("Response: ", data)
-                router.replace("/dashboard/");
+                setMessage("wysłano post do sprawdzenia")
+                setVerifiablePosts(verifiablePosts.concat(data))
             } catch(e) {
                 console.log("error", e)
 
@@ -153,11 +166,12 @@ export default function page() {
                     Wyślij
                 </Button>
             </Card>
-            {isLoading && <Card className="p-2 text-center w-full md:text-md tex-sm"><p>Wysyłanie postu, jeżeli wysyłąsz zdjęcia może potrwać znacznie dłużej w zależności od twojego połączenia</p></Card>}
+            {isLoading && <Card className="p-2 text-center w-full md:text-md tex-sm bg-warning"><p>wysyłanie postu{files.length > 0 && ', wysyłąsz zdjęcia może potrwać znacznie dłużej, w zależności od twojego połączenia'}</p></Card>}
+            {message && <Card className="p-2 text-center w-full md:text-md tex-sm bg-success"><p>wysłano post do sprawdzenia</p></Card>}
             <Card className="p-2 flex flex-col gap-2">
                 <Input type="text" label="Tytuł" value={textTitleValue} onValueChange={setTextTitleValue} />
                 <p>Opis</p>
-                <TipTap setTextState={setTextState} textState={textState}/>
+                <TipTap setTextState={setTextState} textState={textState} limit={1000}/>
                 {!type.includes("uczen") &&
                     <>
                         <p>Tagi</p>
@@ -174,12 +188,13 @@ export default function page() {
                     <Button onClick={() => removePhoto(imgFile)}>usuń</Button>
                 </Card>)}
             </div>
-            <Card className="w-full p-3 flex items-center">
-                <h2 className="md:text-2xl text-lg text-custom-gray-300">Posty oczekujące na akceptacje</h2>
+            <Card className="w-full p-3 flex items-center flex-row justify-between gap-2">
+                <h2 className="md:text-2xl text-lg text-custom-gray-300">{isFetchedPosts ? verifiablePosts.length > 0 ? `Posty oczekujące na akceptacje przez admina (${verifiablePosts.length})` : "Brak postów oczekujących na akceptacje przez admina" : "Ładowanie..."}</h2>
+                <Button onClick={() => setIsActiveList(!isActiveList)}>{isActiveList ? "schowaj posty" : "pokaż posty"}</Button>
             </Card>
             <div className="flex justify-center gap-2 flex-col items-center">
                 {
-                    verifiablePosts.map(post => (
+                   isActiveList && reverseVerifiablePosts.map(post => (
                         <Card key={post.id} className="w-[800px]">
                             <CardHeader><h2 className="text-2xl font-medium">{parser(post.title)}</h2></CardHeader>
                             <Divider/>
