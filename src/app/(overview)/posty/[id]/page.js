@@ -1,11 +1,11 @@
 "use client"
-import PhotoBar from "@/app/ui/Sections/photobar";
-import PostsContent from "@/app/ui/components/post/postscontent";
+import PhotoBar from "../../../ui/Sections/photobar";
+import PostsContent from "../../..//ui/components/post/postscontent";
 import "./../../../dashboard/ui/titles.css"
 import Image from "next/image"
 import Link from "next/link"
 import {useEffect, useState} from "react";
-import Loading from "@/app/(overview)/posty/[id]/loading";
+import Loading from "../../..//(overview)/posty/[id]/loading";
 
 export default function page({ params }) {
     const [post, setPost] = useState([])

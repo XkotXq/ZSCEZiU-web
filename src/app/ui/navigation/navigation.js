@@ -1,6 +1,6 @@
-import Searchnav from "@/app/ui/navigation/searchnav";
-import Logonav from "@/app/ui/navigation/logonav";
-import Linksnav from "@/app/ui/navigation/linksnav";
+import Searchnav from "../navigation/searchnav";
+import Logonav from "../navigation/logonav";
+import Linksnav from "../navigation/linksnav";
 
 export default function navigation() {
     return (

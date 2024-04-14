@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import PhotoBar from "@/app/ui/Sections/photobar";
 
 export default function ImageSlider({ urls }) {
   const [imageIndex, setImageIndex] = useState(0);

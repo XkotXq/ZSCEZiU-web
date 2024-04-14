@@ -3,7 +3,7 @@ import {Card, CardHeader, CardBody, Chip, Skeleton} from "@nextui-org/react";
 
 export default function Skeletonpost() {
     return (
-        <Card shadow="sm" className="w-[400px] flex flex-col">
+        <Card shadow="sm" className="w-[322px] flex flex-col">
             <CardHeader className="grow flex gap-2">
                 <div className="flex h-full flex-col justify-between w-full gap-2">
                     <Skeleton className="rounded-lg">

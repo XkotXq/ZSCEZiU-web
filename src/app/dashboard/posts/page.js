@@ -3,7 +3,7 @@ import { PlusCircleIcon, TrashIcon, PencilIcon, LockClosedIcon, EyeIcon } from "
 import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip, Card, Tooltip, Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
 import {useEffect, useState} from "react";
 import { useSession } from 'next-auth/react';
-import UnauthorizedError from "@/app/dashboard/ui/UnauthorizedError";
+import UnauthorizedError from "../../dashboard/ui/UnauthorizedError";
 export default function page() {
     const [posts, setPosts] = useState([])
     const [isFetched, setIsFetched] = useState(false)

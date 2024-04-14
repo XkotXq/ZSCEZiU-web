@@ -1,5 +1,5 @@
 "use client"
-import PhotoBar from "@/app/ui/Sections/photobar";
+import PhotoBar from "../../ui/Sections/photobar";
 import { useState } from "react"
 export default function page() {
     const [imageIndex, setImageIndex] = useState(0)

@@ -3,6 +3,7 @@ import {Chip, Card, CardHeader, CardBody, CardFooter, Image, useDisclosure, Moda
 import {ChevronLeftIcon, ChevronRightIcon, PencilSquareIcon} from "@heroicons/react/20/solid";
 import { useState, useEffect } from "react"
 import parser from "html-react-parser";
+import "../../../ui/parseStyle.css"
 export default function page({ params }) {
     const [filterTags, setFilterTags] = useState(["klasa I", "klasa II", "klasa III", "klasa IV", "klasa V"])
     const [activeFilterTags, setActiveFilterTags] = useState([])

@@ -5,7 +5,7 @@ import "../../parseStyle.css"
 import {ChevronLeftIcon, ChevronRightIcon} from "@heroicons/react/20/solid";
 import Image from "next/image";
 import {useState} from "react";
-import ImageSlider from "@/app/ui/components/imageSlider";
+import ImageSlider from "../imageSlider";
 export default function PostsContent({ type, data }) {
     const [activePhoto, setActivePhoto] = useState(0)
     console.log(data.length)

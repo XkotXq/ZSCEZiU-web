@@ -3,9 +3,9 @@
 import {ChevronLeftIcon, ChevronRightIcon, EyeIcon, EyeSlashIcon, TrashIcon} from "@heroicons/react/20/solid";
 import {useState, useEffect } from "react";
 import { Popover, PopoverTrigger, PopoverContent} from "@nextui-org/react";
-import TipTap from "@/app/ui/components/tiptap";
+import TipTap from "../../../ui/components/tiptap";
 import Image from "next/image";
-import Photodropzone from "@/app/dashboard/ui/photodropzone";
+import Photodropzone from "../../../dashboard/ui/photodropzone";
 
 
 export default function EditPostComponent({ item, setNewContent, newContent, removeComponent, deletedImages, setDeletedImages }) {

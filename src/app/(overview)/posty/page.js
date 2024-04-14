@@ -1,6 +1,6 @@
 "use client"
-import PhotoBar from "@/app/ui/Sections/photobar";
-import Post from "@/app/ui/components/post";
+import PhotoBar from "../../ui/Sections/photobar";
+import Post from "../../ui/components/post";
 import { Pagination, Image, Link } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import Loading from "./loading"

@@ -1,6 +1,5 @@
 "use client";
-import Chapters from "@/app/ui/components/chapters";
-import PhotoBar from "@/app/ui/Sections/photobar";
+import PhotoBar from "../..//ui/Sections/photobar";
 import Image from "next/image";
 
 export default function page() {

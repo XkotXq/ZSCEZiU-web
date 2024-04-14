@@ -16,7 +16,7 @@ export default function page () {
                     </CardHeader>
                     <CardBody>
                         <p className="md:text-md text-sm">
-                        {session?.user.permission.includes("administrator") ? "Tutaj możesz zarządzać wszystkim, co dotyczy treści i użytkowników na naszej stronie. Możesz tworzyć, edytować i usuwać posty, dostosowywać podstrony oraz zarządzać użytkownikami, decydując, kto może tworzyć treści dla różnych kategorii zawodowych." : (session?.user.permission.includes("admin") ? "admina" : (session?.user.permission.includes("uczen") ? "ucznia" : "ładowanie..."))}
+                        {session?.user.permission.includes("administrator") ? "Tutaj możesz zarządzać wszystkim, co dotyczy treści i użytkowników na naszej stronie. Możesz tworzyć, edytować i usuwać posty, dostosowywać podstrony oraz zarządzać użytkownikami, decydując, kto może tworzyć treści dla różnych kategorii zawodowych." : (session?.user.permission.includes("admin") ? "tym miejscu możesz zarządzać treścią, które umożliwia adminom kontrolę nad przysłanymi postami oraz dostęp do pełnej listy wszystkich postów." : (session?.user.permission.includes("uczen") ? 'w tym miejscu możesz dodawać posty, które potem muszą zostać zaakceptowane przez admina. Jeżeli admin odrzuci post będziesz mógł poprawić i odesłać w zakładce "poprawa" ' : "ładowanie..."))}
                         </p>
                     </CardBody>
                 </Card>

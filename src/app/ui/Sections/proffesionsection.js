@@ -1,9 +1,16 @@
 "use client"
-import Professioncard from "@/app/ui/components/prefessioncard";
+import Professioncard from "../components/prefessioncard";
 import {Accordion, AccordionItem, Link} from "@nextui-org/react";
+import CarouselWithPosts from "../components/post/carouselWithPosts";
 export default function Professionsection() {
     return (
         <>
+            <div className="mx-auto max-w-2xl">
+                <div>
+                    <h2 className="text-2xl font-medium">Najnowsze posty</h2>
+                </div>
+                <CarouselWithPosts/>
+            </div>
             <div className="mx-auto max-w-2xl">
                 <Accordion variant="splitted">
                     <AccordionItem title="Dlaczego Zespół Szkół – Centrum Edukacji Zawodowej i Ustawicznej im M. Kopernika w Rawie Mazowieckiej?">

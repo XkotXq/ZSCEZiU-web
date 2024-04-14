@@ -1,4 +1,4 @@
-import Tag from "@/app/dashboard/ui/tag";
+import Tag from "../../dashboard/ui/tag";
 
 export default function Boxtag({ activeTag, setActiveTag }) {
     const tags = ["ZSCEZiU", "KONKURS", "INFO"]

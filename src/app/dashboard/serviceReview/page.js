@@ -13,6 +13,7 @@ import {
     ModalHeader,
     ModalBody,
     Divider,
+    Link,
     useDisclosure
 } from "@nextui-org/react";
 import {useEffect, useState} from "react";
@@ -158,12 +159,12 @@ export default function page() {
             <Card className="w-full p-3 flex justify-between flex-row items-center">
                 <h1 className="text-3xl">Sprawdzanie postów</h1>
             </Card>
-            <Card>
-                    <h1>Do sprawdzenia</h1>
+            <Card className="w-full p-3">
+                    <h1>Do sprawdzenia ({verifiablePosts.length})</h1>
             </Card>
             <div className="flex flex-col gap-2 items-center">
                 {verifiablePosts.map(post => (
-                    <Card key={post.id} className="w-[800px]">
+                    <Card key={post.id} className="max-w-[800px] w-full">
                         <CardHeader><h2 className="text-2xl font-medium">{parser(post.title)}</h2></CardHeader>
                         <Divider/>
                         <CardBody className="flex flex-col gap-2">
@@ -199,7 +200,7 @@ export default function page() {
                             <div className="flex flex-row gap-2 justify-end w-full">
                                 <Button color="success" variant="shadow" onClick={() => verifiabledPost(post.id, "accepted")}>Akceptuj</Button>
                                 <Button color="warning" variant="shadow" onClick={() => verifiabledPost(post.id, "rejected")}>Odrzuć</Button>
-                                <Button color="primary" variant="shadow">Edytuj</Button>
+                                <Button color="primary" variant="shadow" as={Link} href={`/dashboard/serviceReview/${post.id}`}>Edytuj</Button>
                                 <Button color="danger" variant="shadow" onClick={() => removePost(post.id)}>Usuń</Button>
                             </div>
                         </CardFooter>

@@ -3,7 +3,7 @@ import { Card } from "@nextui-org/react";
 import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Link, Button } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import {useSession} from "next-auth/react";
-import UnauthorizedError from "@/app/dashboard/ui/UnauthorizedError";
+import UnauthorizedError from "../../dashboard/ui/UnauthorizedError";
 
 
 export default function page() {

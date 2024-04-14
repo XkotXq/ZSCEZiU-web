@@ -3,10 +3,10 @@ import { TrashIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid";
 import {useEffect, useState} from "react";
 import "../titles.css"
 import { v4 as uuidv4 } from 'uuid';
-import Photodropzone from "@/app/dashboard/ui/photodropzone";
+import Photodropzone from "../../../dashboard/ui/photodropzone";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import {Popover, PopoverTrigger, PopoverContent, Image} from "@nextui-org/react";
-import TipTap from "@/app/ui/components/tiptap";
+import TipTap from "../../../ui/components/tiptap";
 
 export default function Postcomponent({ type, id, removePostComponent, components, setComponents }) {
     const [editorState, setEditorState] = useState("");

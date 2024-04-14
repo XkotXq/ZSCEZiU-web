@@ -1,4 +1,3 @@
-import PhotoBar from "@/app/ui/Sections/photobar";
 import {Skeleton} from "@nextui-org/react";
 
 export default function Loading() {

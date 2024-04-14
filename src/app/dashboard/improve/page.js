@@ -140,7 +140,7 @@ export default function page() {
             <div className="flex gap-2 flex-col items-center">
                 {
                     posts.map(post => (
-                        <Card key={post.id} className="w-[800px]">
+                        <Card key={post.id} className="max-w-[800px] w-full">
                             <CardHeader><h2 className="text-2xl font-medium">{parser(post.title)}</h2></CardHeader>
                             <Divider/>
                             <CardBody className="flex flex-col gap-2">

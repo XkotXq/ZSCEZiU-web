@@ -1,6 +1,6 @@
 "use client";
 import { Bars3BottomLeftIcon } from "@heroicons/react/20/solid";
-import Linknav from "@/app/ui/navigation/linknav";
+import Linknav from "../navigation/linknav";
 import {useState} from "react";
 
 export default function Linksnav() {

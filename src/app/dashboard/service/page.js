@@ -2,12 +2,12 @@
 import {Button, Card, CardBody, CardFooter, CardHeader, Chip, Divider, Image} from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import {useEffect, useState} from "react";
-import TipTap from "@/app/ui/components/tiptap";
+import TipTap from "../../ui/components/tiptap";
 import "../../ui/parseStyle.css"
 import { Input } from "@nextui-org/react";
-import Photodropzone from "@/app/dashboard/ui/photodropzone";
+import Photodropzone from "../../dashboard/ui/photodropzone";
 import {useRouter} from "next/navigation";
-import TagSellect from "@/app/dashboard/ui/tags/tagSellect";
+import TagSellect from "../../dashboard/ui/tags/tagSellect";
 import parser from "html-react-parser";
 import {PencilSquareIcon} from "@heroicons/react/20/solid";
 
@@ -195,7 +195,7 @@ export default function page() {
             <div className="flex justify-center gap-2 flex-col items-center">
                 {
                    isActiveList && reverseVerifiablePosts.map(post => (
-                        <Card key={post.id} className="w-[800px]">
+                        <Card key={post.id} className="max-w-[800px] w-full">
                             <CardHeader><h2 className="text-2xl font-medium">{parser(post.title)}</h2></CardHeader>
                             <Divider/>
                             <CardBody className="flex flex-col gap-2">

@@ -1,6 +1,6 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import PhotoBar from "@/app/ui/Sections/photobar";
+import PhotoBar from "../../ui/Sections/photobar";
 import { ArrowLongRightIcon } from "@heroicons/react/20/solid";
 import {Card, CardHeader, CardBody, CardFooter, Divider, Link, Input, Image} from "@nextui-org/react";
 export default function page() {

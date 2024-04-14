@@ -3,7 +3,12 @@ import Post from "../../../../models/postModel";
 import { NextResponse } from "next/server"
 export const dynamic = 'force-dynamic';
 export async function GET(req, res) {
-    await connectDB()
-    const posts = await Post.find({}, { content: 0, createdAt: 0, updatedAt: 0 }).sort({ _id: -1 })
-    return NextResponse.json({ posts });
+    try {
+        await connectDB()
+        const posts = await Post.find({}, { content: 0, createdAt: 0, updatedAt: 0 }).sort({ _id: -1 })
+        return NextResponse.json({ posts });
+    } catch (e) {
+        console.log("error", e)
+    }
+
 };

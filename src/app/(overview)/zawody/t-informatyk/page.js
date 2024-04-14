@@ -1,5 +1,5 @@
-import PhotoBar from "@/app/ui/Sections/photobar";
-import Mediacontent from "@/app/ui/components/post/mediacontent";
+import PhotoBar from "../../../ui/Sections/photobar";
+import Mediacontent from "../../../ui/components/post/mediacontent";
 
 export default function page() {
     const mainContent = [
@@ -8,7 +8,6 @@ export default function page() {
             type: "text",
             title: "Technik informatyk",
             parts: [
-                "Śledź na bieżąco serwis uczniów Technikum Informatycznego - http://informatyk.rawa-kopernik.pl, zobacz jak wyglądają zajęcia i czego się na nich uczymy. Serwis tworzony przez uczniów dla uczniów.",
                 "Od roku szkolnego 2010/2011 w naszej szkole kształcimy młodzież w Technikum w zawodzie Technik Informatyk."
             ]
         },

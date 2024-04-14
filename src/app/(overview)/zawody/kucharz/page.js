@@ -1,5 +1,5 @@
-import PhotoBar from "@/app/ui/Sections/photobar";
-import Mediacontent from "@/app/ui/components/post/mediacontent";
+import PhotoBar from "../../../ui/Sections/photobar";
+import Mediacontent from "../../../ui/components/post/mediacontent";
 
 export default function page() {
     const mainContent = [

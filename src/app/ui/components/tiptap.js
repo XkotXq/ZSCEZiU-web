@@ -11,7 +11,7 @@ import {Button, ButtonGroup, Popover, PopoverTrigger, PopoverContent, Input } fr
 import Link from "@tiptap/extension-link"
 import Youtube from  "@tiptap/extension-youtube"
 import CharacterCount from "@tiptap/extension-character-count"
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 const MenuBar = () => {
     const { editor } = useCurrentEditor()
@@ -369,7 +369,6 @@ const TipTap = ({ setTextState, textState, limit=null }) => {
     if (textState) {
         content = textState
     }
-
     const extensions = [
         Color.configure({ types: [TextStyle.name, ListItem.name] }),
         TextStyle.configure({ types: [ListItem.name] }),
@@ -401,10 +400,6 @@ const TipTap = ({ setTextState, textState, limit=null }) => {
     };
     return (
         <EditorProvider slotBefore={<MenuBar />} extensions={extensions} content={content} onUpdate={handleUpdate}></EditorProvider>
-        // <div>
-        // <MenuBar editor={editor} />
-        // <EditorContent editor={editor} />
-        // </div>
     )
 }
 export default TipTap

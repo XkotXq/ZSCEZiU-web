@@ -1,19 +1,18 @@
 "use client";
 import {useEffect, useState} from "react";
-import Boxtag from "@/app/dashboard/ui/boxtag";
-import Photodropzone from "@/app/dashboard/ui/photodropzone";
+import Boxtag from "../../../ui/boxtag";
 import SaveRoundedIcon from "@mui/icons-material/SaveRounded";
 import { Button, Input, CardHeader, CardBody, Image, Card, Chip} from "@nextui-org/react";
 import {format} from "date-fns";
 import {pl} from "date-fns/locale";
 import NotesRoundedIcon from "@mui/icons-material/NotesRounded";
-import {BookmarkIcon, DocumentIcon, PhotoIcon, VideoCameraIcon} from "@heroicons/react/20/solid";
-import EditPostComponent from "@/app/dashboard/ui/post/editPostComponent";
+import {BookmarkIcon, DocumentIcon} from "@heroicons/react/20/solid";
+import EditPostComponent from "../../../../dashboard/ui/post/editPostComponent";
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from "next/navigation"
 import "../../../ui/titles.css"
 import { useSession } from 'next-auth/react';
-import UnauthorizedError from "@/app/dashboard/ui/UnauthorizedError";
+import UnauthorizedError from "../../../ui/UnauthorizedError";
 
 const getPosts = async (setContent, setNewTitle, setNewDesc, setActiveTag, setImg, setIsReady, params) => {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
@@ -96,7 +95,7 @@ export default function page({ params }) {
             });
 
             if (!res.ok) {
-                throw new Error("Błąd aktualizowania postu")
+                throw new Error("Błąd podczas aktualizowania postu")
             }
             router.push("/dashboard/posts")
         } catch (error) {

@@ -1,4 +1,4 @@
-import PhotoBar from "@/app/ui/Sections/photobar";
+import PhotoBar from "../../ui/Sections/photobar";
 
 export default function page() {
     const path = [

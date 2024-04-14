@@ -1,5 +1,5 @@
 "use client"
-import Sidenav from "@/app/dashboard/ui/sidenav";
+import Sidenav from "../dashboard/ui/sidenav";
 import "./ui/scrollstyle.css"
 import { SessionProvider } from "next-auth/react";
 

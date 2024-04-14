@@ -18,7 +18,7 @@ import {
 } from "@nextui-org/react";
 import { EyeIcon, EyeSlashIcon, ClipboardIcon, TrashIcon } from "@heroicons/react/20/solid";
 import { useSession } from "next-auth/react";
-import UnauthorizedError from "@/app/dashboard/ui/UnauthorizedError";
+import UnauthorizedError from "../ui/UnauthorizedError";
 import { useEffect, useState } from "react";
 import secureRandomPassword from 'secure-random-password';
 export default function page() {

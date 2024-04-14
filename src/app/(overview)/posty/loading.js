@@ -1,7 +1,5 @@
-import PhotoBar from "@/app/ui/Sections/photobar";
-import Post from "@/app/ui/components/post";
-import {Card, Skeleton, Pagination} from "@nextui-org/react";
-import Skeletonpost from "@/app/ui/components/post/skeletonPost";
+import { Skeleton} from "@nextui-org/react";
+import Skeletonpost from "../../ui/components/post/skeletonPost";
 
 export default function Loading() {
     const path = [
@@ -14,8 +12,8 @@ export default function Loading() {
         }
     ]
     return (
-        <div className="flex flex-col gap-2">
-            <div className="grid grid-cols-3 gap-2 grow mx-auto">
+        <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 grow mx-auto">
                 <Skeletonpost/>
                 <Skeletonpost/>
                 <Skeletonpost/>
@@ -28,7 +26,7 @@ export default function Loading() {
             </div>
             <div className="gap-1 flex mx-auto my-5">
                 <Skeleton className="rounded-medium">
-                    <div className="w-10 h-10"></div>
+                    <div className=" h-10 max-w-64 w-full"></div>
                 </Skeleton>
                 <Skeleton className="rounded-medium">
                     <div className="w-10 h-10"></div>
@@ -49,7 +47,7 @@ export default function Loading() {
                     <div className="w-10 h-10"></div>
                 </Skeleton>
             </div>
-        </div>
+        </>
 
     )
 }

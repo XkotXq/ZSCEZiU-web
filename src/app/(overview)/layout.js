@@ -1,6 +1,5 @@
-import Navigation from "@/app/ui/navigation/navigation";
-import Footer from "@/app/ui/footer/footer";
-import Newnavigation from "@/app/ui/navigation/newnavigation";
+import Footer from "../ui/footer/footer";
+import Newnavigation from "../ui/navigation/newnavigation";
 
 export default function appLayout({ children }) {
     return (

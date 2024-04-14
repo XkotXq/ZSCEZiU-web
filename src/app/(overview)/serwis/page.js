@@ -1,5 +1,5 @@
 import {Card, CardFooter, Image, Button} from "@nextui-org/react";
-import Cardservicemedia from "@/app/ui/components/cardservicemedia";
+import Cardservicemedia from "../../ui/components/cardservicemedia";
 export default function page() {
     return (
         <div className="w-full flex flex-col justify-center items-center">

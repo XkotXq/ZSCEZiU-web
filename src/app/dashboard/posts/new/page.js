@@ -1,17 +1,17 @@
 "use client";
-import Postcomponent from "@/app/dashboard/ui/post/postcomponent";
+import Postcomponent from "../../../dashboard/ui/post/postcomponent";
 import { v4 as uuidv4 } from 'uuid';
 import NotesRoundedIcon from '@mui/icons-material/NotesRounded';
 import { BookmarkIcon, PaperAirplaneIcon, DocumentIcon, BackwardIcon } from "@heroicons/react/20/solid";
 import { Card, CardHeader, CardBody, Image, Chip, Button } from "@nextui-org/react";
-import Photodropzone from "@/app/dashboard/ui/photodropzone";
+import Photodropzone from "../../../dashboard/ui/photodropzone";
 import { format } from 'date-fns';
 import { pl } from 'date-fns/locale';
 import SaveRoundedIcon from '@mui/icons-material/SaveRounded';
-import Boxtag from "@/app/dashboard/ui/boxtag";
+import Boxtag from "../../../dashboard/ui/boxtag";
 import Snackbar from '@mui/material/Snackbar';
 import { useRouter } from "next/navigation";
-import UnauthorizedError from "@/app/dashboard/ui/UnauthorizedError";
+import UnauthorizedError from "../../../dashboard/ui/UnauthorizedError";
 import { useSession } from 'next-auth/react';
 import {useEffect, useState} from "react";
 
