@@ -17,7 +17,7 @@ async function login(credentials) {
     }
 }
 
-export const authOptions = {
+const authOptions = {
     pages: {
         signIn: "/login"
     },
