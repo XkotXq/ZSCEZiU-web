@@ -105,13 +105,13 @@ export default function page({ params }) {
     }
     const processSendImage = async (components) => {
         const processedSendedComponents = await Promise.all(components.map(async (component) => {
-            if (component.type === "slider" && component.newValue !== []) {
+            if (component.type === "slider" && component.newValue.length !== 0) {
                 const links = await sendImages(component.newValue);
                 console.log("te linki", links)
                 const { newValue, ...rest } = component;
                 return { ...rest, value: [...component.value, ...links] };
             } else {
-                if (component?.newValue === [])
+                if (component?.newValue.length === 0)
                 {
                     const { newValue, ...rest } = component;
                     return { ...rest };
