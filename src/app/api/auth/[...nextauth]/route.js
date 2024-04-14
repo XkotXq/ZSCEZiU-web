@@ -1,4 +1,4 @@
-import CredentialsProvider  from "next-auth/providers/credentials";
+import CredentialsProvider from "next-auth/providers/credentials";
 import NextAuth from "next-auth/next";
 import { connectDB } from "../../../../../utils/connect";
 import User from "../../../../../models/userModel";
