@@ -5,6 +5,7 @@ const subpageSchema= new mongoose.Schema({
         title: String,
         path: String,
         share: Boolean,
+        component: String,
         content: [Schema.Types.Mixed],
     },
     {

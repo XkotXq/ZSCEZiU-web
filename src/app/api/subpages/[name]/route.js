@@ -18,9 +18,15 @@ export async function GET(req, { params }) {
     }
 }
 export async function PUT(req, { params }) {
-    const { name } = params
-    const subpageData = await req.json()
-    await connectDB();
-    await Subpage.findByIdAndUpdate(name, subpageData)
-    return NextResponse.json({ message: "Podstrona zaaktualizowana"}, { status: 200 })
+    try {
+        const { name } = params;
+        const subpageData = await req.json();
+        await connectDB();
+        await Subpage.findOneAndUpdate({ _id: name }, subpageData);
+
+        return NextResponse.json({ message: "Podstrona zaaktualizowana" }, { status: 200 });
+    } catch (error) {
+        console.error("Błąd podczas aktualizacji podstrony:", error);
+        return NextResponse.json({ error: "Wystąpił błąd podczas aktualizacji podstrony" }, { status: 500 });
+    }
 }

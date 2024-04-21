@@ -6,7 +6,7 @@ export default function Professioncard({ name, href, img}) {
     return (
         <div className="flex gap-2 flex-col max-w-[320px] mx-auto mb-3">
             <Card className="p-2">
-                <div className="relative w-full"><Image src={img} width={500} height={224} className="rounded-md" alt={name} style={{
+                <div className="relative w-full"><Image src={img} width={304} height={186} className="rounded-md" alt={name} style={{
                     objectFit: 'cover',
                 }}/></div>
                 <div className="text-center p-2 text-l h-14 flex justify-center items-center">{name}</div>

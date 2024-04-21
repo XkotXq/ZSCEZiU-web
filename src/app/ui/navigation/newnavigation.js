@@ -4,7 +4,7 @@ import { MagnifyingGlassIcon, ChevronDownIcon } from "@heroicons/react/20/solid"
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function Newnavigation() {
+export default function Newnavigation({ children }) {
     const [isMenuOpen, setIsMenuOpen]  = useState(false)
     const [newSearch, setNewSearch] = useState("")
     const router = useRouter()
@@ -99,35 +99,9 @@ export default function Newnavigation() {
                             </Button>
                         </DropdownTrigger>
                     </NavbarItem>
-                    <DropdownMenu>
-                        <DropdownItem href="/zawody/t-informatyk" aria-label="technik informatyk">
-                            technik informatyk
-                        </DropdownItem>
-                        <DropdownItem href="/zawody/t-handlowiec" aria-label="technik handlowiec">
-                            technik handlowiec
-                        </DropdownItem>
-                        <DropdownItem href="/zawody/t-hotelarstwa" aria-label="techik hotelarstwa">
-                            technik hotelarstwa
-                        </DropdownItem>
-                        <DropdownItem href="/zawody/t-mechatronik" aria-label="technik mechatronik">
-                            technik mechatronik
-                        </DropdownItem>
-                        <DropdownItem href="/zawody/t-budownictwa" aria-label="technik budownictwa">
-                            technik budownictwa
-                        </DropdownItem>
-                        <DropdownItem href="/zawody//t-pojazdow-samochodowych" aria-label="technik pojazdów samochodowych">
-                            technik pojazdów samochodowych
-                        </DropdownItem>
-                        <DropdownItem href="/zawody/t-zywienia-i-uslug-gastronomicznych" aria-label="technik żywienia i suług gastronomicznych">
-                            kucharz
-                        </DropdownItem>
-                        <DropdownItem href="/zawody/sprzedawca" aria-label="sprzedawca">
-                            sprzedawca
-                        </DropdownItem>
-                        <DropdownItem href="/zawody/mechanik-pojazdow-samochodowych" aria-label="mechanik pojazdów samochodowych">
-                            mechanik pojazdów <br/> samochodowych
-                        </DropdownItem>
-                    </DropdownMenu>
+                    <>
+                    {children}
+                    </>
                 </Dropdown>
                 <Dropdown>
                     <NavbarItem>
@@ -272,6 +246,7 @@ export default function Newnavigation() {
                         </Link>
                     </NavbarMenuItem>
             </NavbarMenu>
+            {/*<GetProfessions/>*/}
         </Navbar>
     )
 }

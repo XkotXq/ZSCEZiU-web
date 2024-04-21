@@ -3,12 +3,12 @@
 import parser from "html-react-parser"
 import "../../parseStyle.css"
 import {ChevronLeftIcon, ChevronRightIcon} from "@heroicons/react/20/solid";
-import Image from "next/image";
+import {Image} from "@nextui-org/react";
 import {useState} from "react";
 import ImageSlider from "../imageSlider";
 export default function PostsContent({ type, data }) {
     const [activePhoto, setActivePhoto] = useState(0)
-    console.log(data.length)
+    const length = data.length
     const previousImg = () => {
         if (activePhoto === 0) {
             setActivePhoto(data.length - 1)
@@ -23,7 +23,6 @@ export default function PostsContent({ type, data }) {
             setActivePhoto(activePhoto + 1)
         }
     }
-    console.log(data)
     switch (type) {
         case "desc":
             return (
@@ -49,7 +48,14 @@ export default function PostsContent({ type, data }) {
                 //         <Image src={data[activePhoto]} alt={data[activePhoto]} height={500} width={600} className="object-contain max-h-[500px]"/>
                 //     </div>
                 // </div>
-                <ImageSlider urls={data} />
+               <div className="w-full flex justify-center">
+                   {length === 1 ? (
+                       <Image src={data[0]} alt="pojedczyncze zdjecie" className="rounded-lg overflow-hidden max-w-full object-contain"/>
+                   ) : (
+                       <ImageSlider urls={data} />
+                   )
+                   }
+               </div>
             )
         case "video":
             const newEmbedLink = data.replace('watch?v=', 'embed/') || data;

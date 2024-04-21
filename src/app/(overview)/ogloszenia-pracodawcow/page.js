@@ -1,45 +1,22 @@
-import PhotoBar from "../..//ui/Sections/photobar";
-import Mediacontent from "../../ui/components/post/mediacontent";
+import PhotoBar from "../../ui/Sections/photobar";
+import PostsContent from "../../ui/components/post/postscontent";
 
-export default function page() {
-    const content = [
-        {
-            id: 1,
-            type: "desc",
-            parts: [
-                "Marzysz o pracy pod palmami w największym zadaszonym parku wodnym w Europie? Świetnie się składa! Park wodny Suntago oraz wioska hotelowa Suntago Village poszukują:"
-            ]
-        },
-        {
-            id: 2,
-            type: "list",
-            parts: [
-                "pracowników działu obsługi klienta",
-                "kasjerów",
-                "kucharzy",
-                "pomocy kucharzy",
-                "pracowników obsługi w punktach gastronomicznych",
-                "pracowników utrzymania czystości w części gastronomicznej",
-                "barmanów",
-                "pracowników obsługi w Strefie basenowej Galaxy i Jamango – Stewardów\n",
-                "pracowników obsługi w Strefie Relaksu i Saun – Stewardów",
-                "ratowników wodnych",
-                "saunamistrzów",
-                "terapeutów SPA/ kosmetologów",
-                "techników",
-                "ogrodników"
-            ]
-        },
-        {
-            id:3,
-            type: "desc",
-            parts: [
-                "Oferujemy: świetną atmosferę pracy, zgrany zespół pracowników, szkolenia, wsparcie doświadczonej kadry kierowniczej, promocyjne wejściówki do parku, specjalne ceny pracownicze na posiłki w restauracjach znajdujących się na terenie Suntago, nowoczesne wyposażenie stanowisk pracy i narzędzia pracy, dostęp do najnowszych technologii, odzież służbową, bezpłatny transport do pracy z Warszawy i z Żyrardowa a dla zmotoryzowanych pracowników bezpłatny parking.",
-                "Uczniom i absolwentom zapewniamy elastyczny grafik pracy, możliwość pogodzenia nauki z dodatkową pracą, szkolenia od podstaw.",
-                "Zostaw swoje cv na: https://parkofpoland.com/pl/kariera/oferty"
-            ]
-        }
-    ]
+async function getContent() {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
+    const res = await fetch(`${apiUrl}/api/subpages/ogloszenia-pracodawcow`, {
+        method: "GET",
+        cache: "force-cache"
+    })
+    return res.json()
+}
+
+export default async function page() {
+    let content = [];
+    try {
+        content = await getContent() || [];
+    } catch (error) {
+        console.error("Błąd podczas pobierania zawartości:", error);
+    }
     const path = [
         {
             name: "główna",
@@ -49,16 +26,17 @@ export default function page() {
             name: "ogłoszenia pracodawców",
         }
     ]
+
     return (
-        <div>
-            <PhotoBar path={path}/>
-            <div className="flex flex-col items-center gap-2 mt-5">
-                <img src="/ogloszenia-pracodawcow/fmebli.png" className="w-[70%]" alt="ogłoszenie fmebli"/>
-                <img src="/ogloszenia-pracodawcow/mc.jpg" className="w-[50%]" alt="ogłoszenie McDonald"/>
-                <div className="mx-auto">
-                <img src="/ogloszenia-pracodawcow/baner_suntago.jpg" className="w-[70%] mx-auto" alt="ogłoszenie suntago"/>
-                    <div className="max-w-4xl mx-auto mt-2">
-                        {content.map(content => <Mediacontent key={content.id} type={content.type} data={content}/>)}
+        <div className="flex gap-2">
+            <div className="text-custom-gray-300 w-full ">
+                <PhotoBar path={path}/>
+                <div className="max-w-4xl mx-auto">
+                    <div className="mx-6 gap-2 flex flex-col">
+                        {content.post.content.map(postItems => (
+                            <PostsContent key={postItems.id} type={postItems.type} data={postItems.value}/>
+                        ))}
+
                     </div>
                 </div>
             </div>

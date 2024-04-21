@@ -7,16 +7,46 @@ import TextStyle from '@tiptap/extension-text-style'
 import {EditorContent, EditorProvider, useCurrentEditor, useEditor} from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from "@tiptap/extension-underline"
-import {Button, ButtonGroup, Popover, PopoverTrigger, PopoverContent, Input } from "@nextui-org/react";
+import {Button, ButtonGroup, Popover, PopoverTrigger, PopoverContent, Input, Dropdown, DropdownTrigger, DropdownItem, DropdownMenu } from "@nextui-org/react";
+import { Bars3BottomLeftIcon, Bars3BottomRightIcon, MinusIcon, Bars3Icon } from "@heroicons/react/24/outline";
 import Link from "@tiptap/extension-link"
 import Youtube from  "@tiptap/extension-youtube"
 import CharacterCount from "@tiptap/extension-character-count"
+import TextAlign from "@tiptap/extension-text-align"
 import {useEffect, useState} from "react";
+import {Barlow} from "next/dist/compiled/@next/font/dist/google";
 
 const MenuBar = () => {
     const { editor } = useCurrentEditor()
     const [valueLink, setValueLink] = useState("")
     const [valueVideoLink, setValueVideoLink] = useState("")
+    const [selectedOption, setSelectedOption] = useState(new Set(["h1"]));
+
+    const descriptionsMap = {
+        h1: (
+            <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" fill="currentColor" className="bi bi-type-h1" viewBox="0 0 16 16">
+                <path d="M7.648 13V3H6.3v4.234H1.348V3H0v10h1.348V8.421H6.3V13zM14 13V3h-1.333l-2.381 1.766V6.12L12.6 4.443h.066V13z"/>
+            </svg>
+        ),
+        h2: ( <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" fill="currentColor" className="bi bi-type-h2" viewBox="0 0 16 16">
+            <path d="M7.495 13V3.201H6.174v4.15H1.32V3.2H0V13h1.32V8.513h4.854V13zm3.174-7.071v-.05c0-.934.66-1.752 1.801-1.752 1.005 0 1.76.639 1.76 1.651 0 .898-.582 1.58-1.12 2.19l-3.69 4.2V13h6.331v-1.149h-4.458v-.079L13.9 8.786c.919-1.048 1.666-1.874 1.666-3.101C15.565 4.149 14.35 3 12.499 3 10.46 3 9.384 4.393 9.384 5.879v.05z"/>
+        </svg>),
+        h3: (<svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" fill="currentColor" className="bi bi-type-h3" viewBox="0 0 16 16">
+            <path d="M11.07 8.4h1.049c1.174 0 1.99.69 2.004 1.724s-.802 1.786-2.068 1.779c-1.11-.007-1.905-.605-1.99-1.357h-1.21C8.926 11.91 10.116 13 12.028 13c1.99 0 3.439-1.188 3.404-2.87-.028-1.553-1.287-2.221-2.096-2.313v-.07c.724-.127 1.814-.935 1.772-2.293-.035-1.392-1.21-2.468-3.038-2.454-1.927.007-2.94 1.196-2.981 2.426h1.23c.064-.71.732-1.336 1.744-1.336 1.027 0 1.744.64 1.744 1.568.007.95-.738 1.639-1.744 1.639h-.991V8.4ZM7.495 13V3.201H6.174v4.15H1.32V3.2H0V13h1.32V8.513h4.854V13z"/>
+        </svg>),
+        h4: (<svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" fill="currentColor" className="bi bi-type-h4" viewBox="0 0 16 16">
+            <path d="M13.007 3H15v10h-1.29v-2.051H8.854v-1.18C10.1 7.513 11.586 5.256 13.007 3m-2.82 6.777h3.524v-5.62h-.074a95 95 0 0 0-3.45 5.554zM7.495 13V3.201H6.174v4.15H1.32V3.2H0V13h1.32V8.513h4.854V13z"/>
+        </svg>),
+        h5: ( <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" fill="currentColor" className="bi bi-type-h5" viewBox="0 0 16 16">
+            <path d="M9 10.516h1.264c.193.976 1.112 1.364 2.01 1.364 1.005 0 2.067-.782 2.067-2.247 0-1.292-.983-2.082-2.089-2.082-1.012 0-1.658.596-1.924 1.077h-1.12L9.646 3h5.535v1.141h-4.415L10.5 7.28h.072c.201-.316.883-.84 1.967-.84 1.709 0 3.13 1.177 3.13 3.158 0 2.025-1.407 3.403-3.475 3.403-1.809 0-3.1-1.048-3.194-2.484ZM7.495 13V3.201H6.174v4.15H1.32V3.2H0V13h1.32V8.512h4.854V13z"/>
+        </svg>),
+        h6: (<svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" fill="currentColor" className="bi bi-type-h6" viewBox="0 0 16 16">
+            <path d="M15.596 5.178H14.3c-.106-.444-.62-1.072-1.706-1.072-1.332 0-2.325 1.269-2.325 3.947h.07c.268-.67 1.043-1.445 2.445-1.445 1.494 0 3.017 1.064 3.017 3.073C15.8 11.795 14.37 13 12.48 13c-1.036 0-2.093-.36-2.77-1.452C9.276 10.836 9 9.808 9 8.37 9 4.656 10.494 3 12.636 3c1.812 0 2.883 1.113 2.96 2.178m-5.151 4.566c0 1.367.944 2.15 2.043 2.15 1.128 0 2.037-.684 2.037-2.136 0-1.41-1-2.065-2.03-2.065-1.19 0-2.05.853-2.05 2.051M7.495 13V3.201H6.174v4.15H1.32V3.2H0V13h1.32V8.513h4.854V13z"/>
+        </svg>),
+    };
+
+    // Convert the Set to an Array and get the first value.
+    const selectedOptionValue = Array.from(selectedOption)[0];
 
     if (!editor) {
         return null
@@ -112,65 +142,30 @@ const MenuBar = () => {
                     <path d="M10.5 15a.5.5 0 0 1-.5-.5V2H9v12.5a.5.5 0 0 1-1 0V9H7a4 4 0 1 1 0-8h5.5a.5.5 0 0 1 0 1H11v12.5a.5.5 0 0 1-.5.5"/>
                 </svg>
             </Button>
-            <ButtonGroup>
-            <Button
-                onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-                className={editor.isActive('heading', { level: 1 }) ? 'bg-custom-gray-800' : ''}
-                isIconOnly
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" width="70%" height="70%" fill="currentColor" className="bi bi-type-h1" viewBox="0 0 16 16">
-                    <path d="M7.648 13V3H6.3v4.234H1.348V3H0v10h1.348V8.421H6.3V13zM14 13V3h-1.333l-2.381 1.766V6.12L12.6 4.443h.066V13z"/>
-                </svg>
-            </Button>
-            <Button
-                onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-                className={editor.isActive('heading', { level: 2 }) ? 'bg-custom-gray-800' : ''}
-                isIconOnly
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" width="70%" height="70%" fill="currentColor" className="bi bi-type-h2" viewBox="0 0 16 16">
-                    <path d="M7.495 13V3.201H6.174v4.15H1.32V3.2H0V13h1.32V8.513h4.854V13zm3.174-7.071v-.05c0-.934.66-1.752 1.801-1.752 1.005 0 1.76.639 1.76 1.651 0 .898-.582 1.58-1.12 2.19l-3.69 4.2V13h6.331v-1.149h-4.458v-.079L13.9 8.786c.919-1.048 1.666-1.874 1.666-3.101C15.565 4.149 14.35 3 12.499 3 10.46 3 9.384 4.393 9.384 5.879v.05z"/>
-                </svg>
-            </Button>
-            <Button
-                onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-                className={editor.isActive('heading', { level: 3 }) ? 'bg-custom-gray-800' : ''}
-
-                isIconOnly
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" width="70%" height="70%" fill="currentColor" className="bi bi-type-h3" viewBox="0 0 16 16">
-                    <path d="M11.07 8.4h1.049c1.174 0 1.99.69 2.004 1.724s-.802 1.786-2.068 1.779c-1.11-.007-1.905-.605-1.99-1.357h-1.21C8.926 11.91 10.116 13 12.028 13c1.99 0 3.439-1.188 3.404-2.87-.028-1.553-1.287-2.221-2.096-2.313v-.07c.724-.127 1.814-.935 1.772-2.293-.035-1.392-1.21-2.468-3.038-2.454-1.927.007-2.94 1.196-2.981 2.426h1.23c.064-.71.732-1.336 1.744-1.336 1.027 0 1.744.64 1.744 1.568.007.95-.738 1.639-1.744 1.639h-.991V8.4ZM7.495 13V3.201H6.174v4.15H1.32V3.2H0V13h1.32V8.513h4.854V13z"/>
-                </svg>
-            </Button>
-            <Button
-                onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
-                className={editor.isActive('heading', { level: 4 }) ? 'bg-custom-gray-800' : ''}
-
-                isIconOnly
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" width="70%" height="70%" fill="currentColor" className="bi bi-type-h4" viewBox="0 0 16 16">
-                    <path d="M13.007 3H15v10h-1.29v-2.051H8.854v-1.18C10.1 7.513 11.586 5.256 13.007 3m-2.82 6.777h3.524v-5.62h-.074a95 95 0 0 0-3.45 5.554zM7.495 13V3.201H6.174v4.15H1.32V3.2H0V13h1.32V8.513h4.854V13z"/>
-                </svg>
-            </Button>
-            <Button
-                onClick={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
-                className={editor.isActive('heading', { level: 5 }) ? 'bg-custom-gray-800' : ''}
-                isIconOnly
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" width="70%" height="70%" fill="currentColor" className="bi bi-type-h5" viewBox="0 0 16 16">
-                    <path d="M9 10.516h1.264c.193.976 1.112 1.364 2.01 1.364 1.005 0 2.067-.782 2.067-2.247 0-1.292-.983-2.082-2.089-2.082-1.012 0-1.658.596-1.924 1.077h-1.12L9.646 3h5.535v1.141h-4.415L10.5 7.28h.072c.201-.316.883-.84 1.967-.84 1.709 0 3.13 1.177 3.13 3.158 0 2.025-1.407 3.403-3.475 3.403-1.809 0-3.1-1.048-3.194-2.484ZM7.495 13V3.201H6.174v4.15H1.32V3.2H0V13h1.32V8.512h4.854V13z"/>
-                </svg>
-            </Button>
-            <Button
-                onClick={() => editor.chain().focus().toggleHeading({ level: 6 }).run()}
-                className={editor.isActive('heading', { level: 6 }) ? 'bg-custom-gray-800' : ''}
-
-                isIconOnly
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" width="70%" height="70%" fill="currentColor" className="bi bi-type-h6" viewBox="0 0 16 16">
-                    <path d="M15.596 5.178H14.3c-.106-.444-.62-1.072-1.706-1.072-1.332 0-2.325 1.269-2.325 3.947h.07c.268-.67 1.043-1.445 2.445-1.445 1.494 0 3.017 1.064 3.017 3.073C15.8 11.795 14.37 13 12.48 13c-1.036 0-2.093-.36-2.77-1.452C9.276 10.836 9 9.808 9 8.37 9 4.656 10.494 3 12.636 3c1.812 0 2.883 1.113 2.96 2.178m-5.151 4.566c0 1.367.944 2.15 2.043 2.15 1.128 0 2.037-.684 2.037-2.136 0-1.41-1-2.065-2.03-2.065-1.19 0-2.05.853-2.05 2.051M7.495 13V3.201H6.174v4.15H1.32V3.2H0V13h1.32V8.513h4.854V13z"/>
-                </svg>
-            </Button>
-            </ButtonGroup>
+                <Dropdown>
+                    <DropdownTrigger>
+                        <Button
+                        >
+                            Nagłówki
+                        </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                        aria-label="Headers"
+                    >
+                        <DropdownItem key="H1" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+                                      className={editor.isActive('heading', { level: 1 }) ? 'bg-custom-gray-800' : ''}><svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" fill="currentColor" className="bi bi-type-h1" viewBox="0 0 16 16"><path d="M7.648 13V3H6.3v4.234H1.348V3H0v10h1.348V8.421H6.3V13zM14 13V3h-1.333l-2.381 1.766V6.12L12.6 4.443h.066V13z"/></svg></DropdownItem>
+                        <DropdownItem key="H2" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+                                      className={editor.isActive('heading', { level: 2 }) ? 'bg-custom-gray-800' : ''}><svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" fill="currentColor" className="bi bi-type-h2" viewBox="0 0 16 16"><path d="M7.495 13V3.201H6.174v4.15H1.32V3.2H0V13h1.32V8.513h4.854V13zm3.174-7.071v-.05c0-.934.66-1.752 1.801-1.752 1.005 0 1.76.639 1.76 1.651 0 .898-.582 1.58-1.12 2.19l-3.69 4.2V13h6.331v-1.149h-4.458v-.079L13.9 8.786c.919-1.048 1.666-1.874 1.666-3.101C15.565 4.149 14.35 3 12.499 3 10.46 3 9.384 4.393 9.384 5.879v.05z"/></svg></DropdownItem>
+                        <DropdownItem key="H3" onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+                                      className={editor.isActive('heading', { level: 3 }) ? 'bg-custom-gray-800' : ''}><svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" fill="currentColor" className="bi bi-type-h3" viewBox="0 0 16 16"><path d="M11.07 8.4h1.049c1.174 0 1.99.69 2.004 1.724s-.802 1.786-2.068 1.779c-1.11-.007-1.905-.605-1.99-1.357h-1.21C8.926 11.91 10.116 13 12.028 13c1.99 0 3.439-1.188 3.404-2.87-.028-1.553-1.287-2.221-2.096-2.313v-.07c.724-.127 1.814-.935 1.772-2.293-.035-1.392-1.21-2.468-3.038-2.454-1.927.007-2.94 1.196-2.981 2.426h1.23c.064-.71.732-1.336 1.744-1.336 1.027 0 1.744.64 1.744 1.568.007.95-.738 1.639-1.744 1.639h-.991V8.4ZM7.495 13V3.201H6.174v4.15H1.32V3.2H0V13h1.32V8.513h4.854V13z"/></svg></DropdownItem>
+                        <DropdownItem key="H4" onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
+                                      className={editor.isActive('heading', { level: 4 }) ? 'bg-custom-gray-800' : ''}><svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" fill="currentColor" className="bi bi-type-h4" viewBox="0 0 16 16"><path d="M13.007 3H15v10h-1.29v-2.051H8.854v-1.18C10.1 7.513 11.586 5.256 13.007 3m-2.82 6.777h3.524v-5.62h-.074a95 95 0 0 0-3.45 5.554zM7.495 13V3.201H6.174v4.15H1.32V3.2H0V13h1.32V8.513h4.854V13z"/></svg></DropdownItem>
+                        <DropdownItem key="H5" onClick={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
+                                      className={editor.isActive('heading', { level: 5 }) ? 'bg-custom-gray-800' : ''}><svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" fill="currentColor" className="bi bi-type-h5" viewBox="0 0 16 16"><path d="M9 10.516h1.264c.193.976 1.112 1.364 2.01 1.364 1.005 0 2.067-.782 2.067-2.247 0-1.292-.983-2.082-2.089-2.082-1.012 0-1.658.596-1.924 1.077h-1.12L9.646 3h5.535v1.141h-4.415L10.5 7.28h.072c.201-.316.883-.84 1.967-.84 1.709 0 3.13 1.177 3.13 3.158 0 2.025-1.407 3.403-3.475 3.403-1.809 0-3.1-1.048-3.194-2.484ZM7.495 13V3.201H6.174v4.15H1.32V3.2H0V13h1.32V8.512h4.854V13z"/></svg></DropdownItem>
+                        <DropdownItem key="H6" onClick={() => editor.chain().focus().toggleHeading({ level: 6 }).run()}
+                                      className={editor.isActive('heading', { level: 6 }) ? 'bg-custom-gray-800' : ''}><svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" fill="currentColor" className="bi bi-type-h6" viewBox="0 0 16 16"><path d="M15.596 5.178H14.3c-.106-.444-.62-1.072-1.706-1.072-1.332 0-2.325 1.269-2.325 3.947h.07c.268-.67 1.043-1.445 2.445-1.445 1.494 0 3.017 1.064 3.017 3.073C15.8 11.795 14.37 13 12.48 13c-1.036 0-2.093-.36-2.77-1.452C9.276 10.836 9 9.808 9 8.37 9 4.656 10.494 3 12.636 3c1.812 0 2.883 1.113 2.96 2.178m-5.151 4.566c0 1.367.944 2.15 2.043 2.15 1.128 0 2.037-.684 2.037-2.136 0-1.41-1-2.065-2.03-2.065-1.19 0-2.05.853-2.05 2.051M7.495 13V3.201H6.174v4.15H1.32V3.2H0V13h1.32V8.513h4.854V13z"/></svg></DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
                 <ButtonGroup>
             <Button
                 onClick={() => editor.chain().focus().toggleBulletList().run()}
@@ -294,9 +289,7 @@ const MenuBar = () => {
                 </svg>
             </Button>
             <Button isIconOnly onClick={() => editor.chain().focus().setHorizontalRule().run()}>
-                <svg width="70%" height="70%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 8.5H21M3 15.5H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+                <MinusIcon className="w-[28px] h-[29px] text-white" />
             </Button>
             <Button isIconOnly onClick={() => editor.chain().focus().setHardBreak().run()}>
                 <svg width="70%" height="70%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -321,6 +314,29 @@ const MenuBar = () => {
                     <path d="M20 14C20 18.4183 16.4183 22 12 22C7.58172 22 4 18.4183 4 14C4 12.9391 4.20651 11.9264 4.58152 11C5.76829 8.06817 12 2 12 2C12 2 18.2317 8.06817 19.4185 11C19.7935 11.9264 20 12.9391 20 14Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
             </Button>
+                <ButtonGroup>
+                    <Button
+                        onClick={() => editor.chain().focus().setTextAlign('left').run()}
+                        className={`${editor.isActive({ textAlign: 'left' }) ? 'bg-custom-gray-800' : ''}`}
+                        isIconOnly
+                    >
+                        <Bars3BottomLeftIcon className="w-[28px] h-[28px] text-white"/>
+                    </Button><Button
+                    onClick={() => editor.chain().focus().setTextAlign('center').run()}
+                    className={`${editor.isActive({ textAlign: 'center' }) ? 'bg-custom-gray-800' : ''}`}
+                    isIconOnly
+                >
+                    <Bars3Icon className="w-[28px] h-[28px] text-white"/>
+                </Button>
+                <Button
+                    onClick={() => editor.chain().focus().setTextAlign('right').run()}
+                    className={`${editor.isActive({ textAlign: 'right' }) ? 'bg-custom-gray-800' : ''}`}
+                    isIconOnly
+                >
+                    <Bars3BottomRightIcon className="w-[28px] h-[28px] text-white"/>
+                </Button>
+
+                </ButtonGroup>
             </div>
             <div className="flex flex-wrap md:justify-start justify-end">
                 <ButtonGroup>
@@ -374,6 +390,10 @@ const TipTap = ({ setTextState, textState, limit=null }) => {
         TextStyle.configure({ types: [ListItem.name] }),
         Underline.configure(),
         Youtube.configure(),
+        TextAlign.configure({
+            types: ['heading', 'paragraph'],
+            alignments: ['left', 'center', 'right'],
+        }),
         CharacterCount.configure({
             limit: limit
         }),

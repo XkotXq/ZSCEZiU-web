@@ -67,6 +67,7 @@ export default function Professionsection() {
                     <Professioncard name={"elektromechanik pojazdów samochodowych"} href={"/zawody/elektromechanik-pojazdow-samochodowych"} img={"/elektromechanik.jpg"}/>
                     <Professioncard name={"operator obrabiarek skrawających"} href={"/zawody/operator-obrabiarek-skrawajacych"} img={"/operator_obrabiarek_skawajacych.jpg"}/>
                     <Professioncard name={"klasa wielozawodowa"} href={"/zawody/klasa-wielozawodowa"} img={"/wielozawodowa.jpg"}/>
+                    <Professioncard name={"magazynier - logistyk"} href={"/zawody/magazynier-logistyk"} img={"/zawody/magazynier-logistyk.jpeg"}/>
                 </div>
             </div>
         </>

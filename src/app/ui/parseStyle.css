@@ -23,9 +23,11 @@
 }
 .boxParse h1 {
     font-size: 48px;
+    width: 100%;
 }
 .boxParse h2 {
     font-size: 42px;
+    width: 100%;
 }
 .boxParse h3 {
     font-size: 36px;

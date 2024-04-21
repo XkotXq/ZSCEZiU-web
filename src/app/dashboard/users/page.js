@@ -341,6 +341,7 @@ export default function page() {
                     <TableCell>{user.email}</TableCell>
                     <TableCell>{user.permission}</TableCell>
                     <TableCell>
+                        {user.permission !== "administrator" ?
                         <Popover placement="left" showArrow={true}>
                             <PopoverTrigger>
                                 <button
@@ -366,7 +367,7 @@ export default function page() {
                                     </div>
                                 </div>
                             </PopoverContent>
-                        </Popover>
+                        </Popover> : <p>brak</p> }
                     </TableCell>
                   </TableRow>
                 ))}
