@@ -198,33 +198,6 @@ export default function Listofprofessions({ data }) {
                                     {item.title.toLowerCase()}
                                 </Link>
                             ))}
-                            {/*<Link href="/zawody/t-informatyk" color="foreground" aria-label="technik informatyk">*/}
-                            {/*    technik informatyk*/}
-                            {/*</Link>*/}
-                            {/*<Link href="/zawody/t-handlowiec" color="foreground" aria-label="technik handlowiec">*/}
-                            {/*    technik handlowiec*/}
-                            {/*</Link>*/}
-                            {/*<Link href="/zawody/t-hotelarstwa" color="foreground" aria-label="technik hotelarstwa">*/}
-                            {/*    technik hotelarstwa*/}
-                            {/*</Link>*/}
-                            {/*<Link href="/zawody/t-mechatronik" color="foreground" aria-label="technik mechatronik">*/}
-                            {/*    technik mechatronik*/}
-                            {/*</Link>*/}
-                            {/*<Link href="/zawody/t-budownictwa" color="foreground" aria-label="technik budownictwa">*/}
-                            {/*    technik budownictwa*/}
-                            {/*</Link>*/}
-                            {/*<Link href="/zawody/t-pojazdow-samochodowych" color="foreground" aria-label="technik pojazdów samochodowych">*/}
-                            {/*    technik pojazdów samochodowych*/}
-                            {/*</Link>*/}
-                            {/*<Link href="/zawody/zywienia-i-uslug-gastronomicznych" color="foreground" aria-label="technik żywienia i usług gastronomicznych">*/}
-                            {/*    technik żywienia i usług gastronomicznych / kucharz*/}
-                            {/*</Link>*/}
-                            {/*<Link href="/zawody/sprzedawca" color="foreground" aria-label="sprzedawca">*/}
-                            {/*    sprzedawca*/}
-                            {/*</Link>*/}
-                            {/*<Link href="/zawody/sprzedawca" color="foreground" aria-label="mechanik pojazdów samochowowych">*/}
-                            {/*    mechanik pojazdów samochodowych*/}
-                            {/*</Link>*/}
                         </div>
                     </AccordionItem>
 

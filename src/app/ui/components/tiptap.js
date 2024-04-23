@@ -389,7 +389,10 @@ const TipTap = ({ setTextState, textState, limit=null }) => {
         Color.configure({ types: [TextStyle.name, ListItem.name] }),
         TextStyle.configure({ types: [ListItem.name] }),
         Underline.configure(),
-        Youtube.configure(),
+        Youtube.configure({
+            width: "100%",
+            nocookie: true,
+        }),
         TextAlign.configure({
             types: ['heading', 'paragraph'],
             alignments: ['left', 'center', 'right'],

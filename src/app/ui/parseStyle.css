@@ -86,4 +86,8 @@
 }
 .boxParse iframe {
     margin: 0 auto 0 auto;
+    max-width: 640px;
+    max-height: 480px;
+    width: 100%;
+    aspect-ratio: 16 / 9;
 }
