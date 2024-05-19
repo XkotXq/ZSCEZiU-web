@@ -1,7 +1,6 @@
 import {connectDB} from "../../../../utils/connect";
 import Post from "../../../../models/postModel";
 import {NextResponse} from "next/server";
-import {getSession} from "next-auth/react";
 import {getServerSession} from "next-auth";
 export const dynamic = 'force-dynamic';
 export async function POST(req) {

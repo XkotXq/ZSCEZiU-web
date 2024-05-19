@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
+
 export default function ImageSlider({ urls }) {
   const [imageIndex, setImageIndex] = useState(0);
   const showNextImg = () => {
@@ -27,7 +28,7 @@ export default function ImageSlider({ urls }) {
                            zIndex: index === imageIndex ? 10 : 0,
                        }}>
                       <img
-                          className={`block flex-shrink-0 flex-grow-0 sm:max-h-[450px] xs:max-h-full sm:max-w-[600px] xs:max-w-full overflow-hidden ${
+                          className={`block flex-shrink-0 flex-grow-0 max-w-full max-h-full overflow-hidden object-fill select-none ${
                               imageRatio > 1 ? 'object-contain' : 'object-cover'
                           }`}
                           src={image}
@@ -42,7 +43,7 @@ export default function ImageSlider({ urls }) {
           <button onClick={showNextImg} className="z-20 absolute group-hover:sm:-translate-x-[32px] -right-[32px] -translate-x-[32px] transition-transform h-full flex top-0 justify-center items-center bg-black bg-opacity-50 p-1">
               <ChevronRightIcon className="h-6 w-6 text-white" />
           </button>
-          <div className="z-20 absolute top-0 left-1/2 -translate-x-1/2 text-white bg-black bg-opacity-50 p-1 rounded-lg">
+          <div className="z-20 absolute top-0 left-1/2 -translate-x-1/2 text-white bg-black bg-opacity-50 p-1 rounded-b-lg">
               {imageIndex+1} z {urls.length}
           </div>
       </div>

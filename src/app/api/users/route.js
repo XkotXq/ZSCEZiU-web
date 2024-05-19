@@ -7,6 +7,7 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(req) {
     const session = await getToken({req, secret:process.env.NEXTAUTH_SECRET})
+    console.log("sesja", session)
     if (!session) {
         return NextResponse.json({error: "User is not authenticated"}, {status: 401})
     }

@@ -10,6 +10,7 @@ export default function Listofprofessions({ data }) {
     const router = useRouter()
     const goSearch = (e) => {
         e.preventDefault()
+        if(newSearch !== "")
         router.push("/search?q=" + newSearch)
     }
     return (
