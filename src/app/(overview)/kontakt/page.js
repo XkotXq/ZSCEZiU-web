@@ -29,7 +29,7 @@ export default async function page() {
 
     return (
         <div className="flex gap-2">
-            <div className="text-custom-gray-300 w-full ">
+            <div className="text-custom-gray-300 w-full">
                 <PhotoBar path={path}/>
                 <div className="max-w-4xl mx-auto">
                     <div className="mx-6 gap-2 flex flex-col">
