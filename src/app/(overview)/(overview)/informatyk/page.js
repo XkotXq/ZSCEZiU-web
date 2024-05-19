@@ -5,12 +5,10 @@ import { useState, useEffect } from "react"
 import parser from "html-react-parser";
 import "../../../ui/parseStyle.css"
 export default function page({ params }) {
-    const [filterTags, setFilterTags] = useState(["klasa I", "klasa II", "klasa III", "klasa IV", "klasa V"])
     const [activeFilterTags, setActiveFilterTags] = useState([])
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const [activePhoto, setActivePhoto] = useState("")
     const [posts, setPosts] = useState([])
-    const [filteredPosts, setFilteredPosts] = useState(posts)
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
 
     useEffect(() => {
@@ -66,24 +64,6 @@ export default function page({ params }) {
         setActivePhoto(updatedActivePhoto)
     }
     const activePost = posts.filter(post => post.id === activePhoto.post)
-
-    const switchFilterTags = (tag) => {
-        if (activeFilterTags.some(filterTag => filterTag === tag)) {
-            setActiveFilterTags(activeFilterTags.filter(activeTag => activeTag !== tag))
-        } else {
-            setActiveFilterTags(activeFilterTags.concat(tag))
-        }
-    }
-
-    useEffect(() => {
-        if (activeFilterTags.length === 0) {
-            setFilteredPosts(posts)
-        } else {
-            setFilteredPosts(posts.filter(post =>
-                activeFilterTags.some(tag => post.tags.includes(tag))
-            ))}
-
-    }, [activeFilterTags]);
     return (
         <>
             <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="5xl">
@@ -109,29 +89,14 @@ export default function page({ params }) {
             </Modal>
             <div className="flex flex-col">
                 <div className="bg-cover relative">
-                    <Image src="/default-banner.jpg" alt={"baner - budowlanka"} width={2000}  className=" h-[300px] object-cover"/>
+                    <Image src="/default-banner.jpg" alt={"baner"} width={2000}  className=" h-[300px] object-cover"/>
                     <div className="absolute top-1/2 left-1/2 z-20 -translate-x-1/2 -translate-y-1/2 text-center bg-black bg-opacity-40 p-3 rounded-xl">
                         <h1 className="text-3xl font-bold tracking-tight">Blog dla zawodu technik informatyk</h1>
-                        <p className="text-custom-gray-50 text-lg">Zobacz nasze ostatnie posty</p>
+                        <p className="text-[#f2f2f2] text-lg font-bold">Zobacz nasze ostatnie posty</p>
                     </div>
                 </div>
                 <div className="mx-auto flex gap-3 flex-col">
-                    <div className="grow text-center mt-2">
-                        <div className="bg-custom-gray-900 rounded-md p-3 text-start flex flex-col gap-2 w-[800px]">
-                            <h3 className="text-xl font-bold">Filtry</h3>
-                            <div className="flex flex-wrap gap-2 h-8 items-center">
-                                {filterTags.map(tag => (
-                                    <Chip key={tag} variant={activeFilterTags.some(activeTag => activeTag === tag)? "solid": "light"} className="cursor-pointer select-none" onClick={() => switchFilterTags(tag)}>
-                                        {tag}
-                                    </Chip>
-                                ))}
-                                <Divider orientation="vertical" />
-
-                            </div>
-                        </div>
-                    </div>
-                    <div className="overflow-auto grow flex flex-col gap-2 mx-auto">
-                        {posts.length === 0 && (<div className="flex flex-wrap gap-2">brak postów z obecnie ustawionymi filtrami: {activeFilterTags.map(tag => (<Chip key={tag} variant="light">{tag}</Chip>))}</div>) }
+                    <div className="overflow-auto grow flex flex-col gap-2 mx-auto mt-5">
                         {posts.map(post => (
                             <Card key={post.id} className="w-[800px]">
                                 <CardHeader><h2 className="text-2xl font-medium">{parser(post.title)}</h2></CardHeader>

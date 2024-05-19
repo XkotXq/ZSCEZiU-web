@@ -24,10 +24,10 @@ export default function page() {
     const [subpages, setSubpages] = useState([])
     const [isFetched, setIsFetched] = useState(false)
     const querry = searchParams.get("q")
-
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
     const getContent = async () => {
         setIsFetched(false)
-        const res = await fetch(`http://localhost:3000/api/search?q=${querry}`);
+        const res = await fetch(`${apiUrl}/api/search?q=${querry}`);
         const formatted = await res.json()
         const found = formatted.found
         if (formatted) {
